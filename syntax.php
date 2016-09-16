@@ -14,19 +14,21 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
      * @return string Syntax mode type
      */
     public function getType() {
-        return 'FIXME: container|baseonly|formatting|substition|protected|disabled|paragraphs';
+        return 'container';
     }
+
     /**
      * @return string Paragraph type
      */
     public function getPType() {
-        return 'FIXME: normal|block|stack';
+        return 'block';
     }
+
     /**
      * @return int Sort order - Low numbers go before high numbers
      */
     public function getSort() {
-        return FIXME;
+        return 20;
     }
 
     /**
@@ -35,13 +37,8 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
      * @param string $mode Parser mode
      */
     public function connectTo($mode) {
-        $this->Lexer->addSpecialPattern('<FIXME>',$mode,'plugin_tablelayout');
-//        $this->Lexer->addEntryPattern('<FIXME>',$mode,'plugin_tablelayout');
+        $this->Lexer->addSpecialPattern('{{tablelayout\?[^\n]+?}}(?=\s*?\n[|^])',$mode,'plugin_tablelayout');
     }
-
-//    public function postConnect() {
-//        $this->Lexer->addExitPattern('</FIXME>','plugin_tablelayout');
-//    }
 
     /**
      * Handle matches of the tablelayout syntax
@@ -52,9 +49,36 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
      * @param Doku_Handler    $handler The handler
      * @return array Data for the renderer
      */
-    public function handle($match, $state, $pos, Doku_Handler &$handler){
+    public function handle($match, $state, $pos, Doku_Handler $handler){
+        $options = explode('&', substr($match, strlen('{{tablelayout?'), strlen($match)-(strlen('{{tablelayout?}}'))));
         $data = array();
+        global $JSINFO;
+        if (!isset($JSINFO['plugin']['tablelayout'])) {
+            $JSINFO['plugin']['tablelayout'] = array();
+        }
+        $id = count($JSINFO['plugin']['tablelayout']);
+        foreach ($options as $option) {
+            list($key, $value) = explode('=', $option);
+            switch ($key) {
+                case 'float':
+                case 'rowsVisible':
+                case 'rowsFixed':
+                    $data[$key] = $value;
+                    break;
+                case 'colwidth':
+                    $value = array_map('trim', explode(',', trim($value, '"\'')));
+                    $data[$key] = $value;
+                    break;
+                default:
+                    msg('Unknown option: ' . hsc($key), -1);
+            }
+        }
+        if (empty($data)) {
+            return $data;
+        }
 
+        $data['id'] = $id;
+        $JSINFO['plugin']['tablelayout'][] = $data;
         return $data;
     }
 
@@ -66,8 +90,10 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
      * @param array          $data      The data from the handler() function
      * @return bool If rendering was successful.
      */
-    public function render($mode, Doku_Renderer &$renderer, $data) {
-        if($mode != 'xhtml') return false;
+    public function render($mode, Doku_Renderer $renderer, $data) {
+        if ($mode != 'xhtml') return false;
+        if (empty($data)) return false;
+        $renderer->doc .= "<div class='plugin_tablelayout_placeholder' data-tablelayout='$data[id]'></div>";
 
         return true;
     }
