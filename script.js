@@ -23,7 +23,10 @@ jQuery(function(){
             var numCols = tablelayout.getNumberOfTableCols($table);
             var $colgroup = jQuery('<colgroup>');
             JSINFO.plugin.tablelayout[id].colwidth.forEach(function (width) {
-                var $col = jQuery('<col>').css('width', width);
+                var $col = jQuery('<col>');
+                if (width != '-') {
+                    $col.css('width', width);
+                }
                 $colgroup.append($col);
             });
             $table.prepend($colgroup);
