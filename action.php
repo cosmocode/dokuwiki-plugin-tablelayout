@@ -24,8 +24,42 @@ class action_plugin_tablelayout extends DokuWiki_Action_Plugin {
      */
     public function register(Doku_Event_Handler $controller) {
         // todo: switch to COMMON_WIKIPAGE_SAVE with next major DokuWiki release that includes pull request #1696
+        $controller->register_hook('COMMON_WIKIPAGE_SAVE', 'BEFORE', $this, 'ensure_pagesave');
         $controller->register_hook('IO_WIKIPAGE_WRITE', 'BEFORE', $this, 'handle_pagesave_before');
         $controller->register_hook('DOKUWIKI_STARTED', 'AFTER', $this, 'handle_dokuwik_started');
+    }
+
+    /**
+     * Check if page has to be saved because tablelayout has changed
+     *
+     * @param Doku_Event $event
+     * @param $param
+     * @return bool
+     */
+    public function ensure_pagesave(Doku_Event $event, $param) {
+        if ($event->data['revertFrom'] || empty($event->data['newContent']) || $event->data['contentChanged']) {
+            return false;
+        }
+        global $RANGE, $INPUT;
+        list($start) = explode('-', $RANGE);
+        $start = intval($start);
+
+        if (!$this->isTableSave($event->data['newContent'], $start)) {
+            return false;
+        }
+        $pretext = explode("\n", substr($event->data['newContent'], 0, $start - 2));
+        $oldSyntax = end($pretext);
+        $newLayoutJSON = $INPUT->str('tablelayout');
+
+        /** @var helper_plugin_tablelayout $helper */
+        $helper = $this->loadHelper('tablelayout');
+        $newSyntax = $helper->buildSyntaxFromJSON($newLayoutJSON);
+
+        if ($oldSyntax != $newSyntax) {
+            $event->data['contentChanged'] = true;
+            return true;
+        }
+        return false;
     }
 
     public function handle_dokuwik_started (Doku_Event $event, $param) {
@@ -37,7 +71,7 @@ class action_plugin_tablelayout extends DokuWiki_Action_Plugin {
     }
 
     /**
-     * Check if the page has to be changed
+     * Adjust tablelayout saved on page
      *
      * @param Doku_Event $event event object by reference
      * @param mixed $param [the parameters passed as fifth argument to register_hook() when this
