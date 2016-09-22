@@ -90,6 +90,7 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
     public function render($mode, Doku_Renderer $renderer, $data) {
         if (empty($data)) return false;
         if ($mode == 'metadata') {
+            $renderer->meta['plugin']['tablelayout'][] = $data;
 
             global $JSINFO;
             if (!isset($JSINFO['plugin']['tablelayout'])) {
