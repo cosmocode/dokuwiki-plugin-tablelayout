@@ -23,6 +23,8 @@ class action_plugin_tablelayout extends DokuWiki_Action_Plugin {
      * @return void
      */
     public function register(Doku_Event_Handler $controller) {
+        // todo: switch to COMMON_WIKIPAGE_SAVE with next major DokuWiki release that includes pull request #1696
+        $controller->register_hook('IO_WIKIPAGE_WRITE', 'BEFORE', $this, 'handle_pagesave_before');
         $controller->register_hook('DOKUWIKI_STARTED', 'AFTER', $this, 'handle_dokuwik_started');
     }
 
@@ -32,6 +34,49 @@ class action_plugin_tablelayout extends DokuWiki_Action_Plugin {
         if (!empty($meta['plugin']['tablelayout'])) {
             $JSINFO['plugin']['tablelayout'] = $meta['plugin']['tablelayout'];
         }
+    }
+
+    /**
+     * Check if the page has to be changed
+     *
+     * @param Doku_Event $event event object by reference
+     * @param mixed $param [the parameters passed as fifth argument to register_hook() when this
+     *                           handler was registered]
+     * @return bool
+     */
+    public function handle_pagesave_before(Doku_Event $event, $param) {
+        if ($event->data[3] !== false) {
+            return false;
+        }
+        global $RANGE, $INPUT;
+        list($start) = explode('-', $RANGE);
+        $start = intval($start);
+
+        if (!$this->isTableSave($event->data[0][1], $start)) {
+            return false;
+        }
+        $pretext = explode("\n", substr($event->data[0][1], 0, $start - 2));
+        $oldSyntax = end($pretext);
+        $newLayoutJSON = $INPUT->str('tablelayout');
+
+        /** @var helper_plugin_tablelayout $helper */
+        $helper = $this->loadHelper('tablelayout');
+        $newSyntax = $helper->buildSyntaxFromJSON($newLayoutJSON);
+
+        // todo check that old syntax and new syntax differ
+
+        if (substr($oldSyntax, 0, strlen('{{tablelayout')) == '{{tablelayout') {
+            array_pop($pretext);
+        }
+        $pretext[] = $newSyntax;
+        $event->data[0][1] = join("\n", $pretext) . "\n" . substr($event->data[0][1], $start - 1);
+        return true;
+    }
+
+    private function isTableSave ($text, $start) {
+        // FIXME: not sure why we have to use $start-1 here. There might be a bug in how $RANGE is calculated
+        $firstChar = substr($text, $start-1, 1);
+        return  $firstChar == '^' || $firstChar == '|';
     }
 }
 
