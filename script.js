@@ -31,7 +31,10 @@ jQuery(function(){
         if (JSINFO.plugin.tablelayout[id].colwidth.length) {
             var numCols = tablelayout.getNumberOfTableCols($table);
             var $colgroup = jQuery('<colgroup>');
-            JSINFO.plugin.tablelayout[id].colwidth.forEach(function (width) {
+            JSINFO.plugin.tablelayout[id].colwidth.forEach(function (width, index) {
+                if (index+1 > numCols) {
+                    return;
+                }
                 var $col = jQuery('<col>');
                 if (width != '-') {
                     $col.css('width', width);
