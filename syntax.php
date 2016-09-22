@@ -40,7 +40,7 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
      * @param string $mode Parser mode
      */
     public function connectTo($mode) {
-        $this->Lexer->addSpecialPattern('{{tablelayout\?[^\n]+?}}(?=\s*?\n[|^])',$mode,'plugin_tablelayout');
+        $this->Lexer->addSpecialPattern('{{tablelayout\?[^\n]*?}}(?=\s*?\n[|^])',$mode,'plugin_tablelayout');
     }
 
     /**
@@ -54,7 +54,11 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
      */
     public function handle($match, $state, $pos, Doku_Handler $handler){
         $options = explode('&', substr($match, strlen('{{tablelayout?'), strlen($match)-(strlen('{{tablelayout?}}'))));
+        $options = array_filter($options);
         $data = array();
+        if (empty($options)) {
+            return $data;
+        }
         foreach ($options as $option) {
             list($key, $value) = explode('=', $option);
             switch ($key) {
