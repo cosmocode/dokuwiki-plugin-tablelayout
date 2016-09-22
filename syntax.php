@@ -10,6 +10,9 @@
 if (!defined('DOKU_INC')) die();
 
 class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
+
+    private $count = 0;
+
     /**
      * @return string Syntax mode type
      */
@@ -52,11 +55,6 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
     public function handle($match, $state, $pos, Doku_Handler $handler){
         $options = explode('&', substr($match, strlen('{{tablelayout?'), strlen($match)-(strlen('{{tablelayout?}}'))));
         $data = array();
-        global $JSINFO;
-        if (!isset($JSINFO['plugin']['tablelayout'])) {
-            $JSINFO['plugin']['tablelayout'] = array();
-        }
-        $id = count($JSINFO['plugin']['tablelayout']);
         foreach ($options as $option) {
             list($key, $value) = explode('=', $option);
             switch ($key) {
@@ -76,9 +74,8 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
         if (empty($data)) {
             return $data;
         }
-
-        $data['id'] = $id;
-        $JSINFO['plugin']['tablelayout'][] = $data;
+        $data['id'] = $this->count;
+        $this->count += 1;
         return $data;
     }
 
@@ -91,11 +88,24 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
      * @return bool If rendering was successful.
      */
     public function render($mode, Doku_Renderer $renderer, $data) {
-        if ($mode != 'xhtml') return false;
         if (empty($data)) return false;
-        $renderer->doc .= "<div class='plugin_tablelayout_placeholder' data-tablelayout='$data[id]'></div>";
+        if ($mode == 'metadata') {
 
-        return true;
+            global $JSINFO;
+            if (!isset($JSINFO['plugin']['tablelayout'])) {
+                $JSINFO['plugin']['tablelayout'] = array();
+            }
+            $JSINFO['plugin']['tablelayout'][] = $data;
+
+            return true;
+        }
+
+        if ($mode == 'xhtml') {
+            $renderer->doc .= "<div class='plugin_tablelayout_placeholder' data-tablelayout='$data[id]'></div>";
+            return true;
+        }
+
+        return false;
     }
 }
 
