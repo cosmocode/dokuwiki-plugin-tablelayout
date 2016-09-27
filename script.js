@@ -1,4 +1,5 @@
 var tablelayout = function () {
+    "use strict";
     var exports = {};
     exports.getNumberOfTableCols = function ($table) {
         var $rows = $table.find('tr');
@@ -10,6 +11,28 @@ var tablelayout = function () {
         });
         return max;
     };
+
+    exports.applyStylesToTable = function ($table, layoutdata) {
+        var numCols = tablelayout.getNumberOfTableCols($table);
+        var $colgroup = jQuery('<colgroup>');
+        layoutdata.colwidth.forEach(function (width, index) {
+            if (index+1 > numCols) {
+                return;
+            }
+            var $col = jQuery('<col>');
+            if (width != '-') {
+                $col.css('width', width);
+            }
+            $colgroup.append($col);
+        });
+        $table.prepend($colgroup);
+        if (layoutdata.colwidth.length == numCols) {
+            // todo: should we throw an error if there are MORE widths defined than cols in the table?
+            $table.css('min-width', 'unset');
+            $table.css('width', 'unset');
+        }
+    };
+
     return exports;
 }();
 
@@ -19,33 +42,24 @@ jQuery(function(){
     jQuery('.plugin_tablelayout_placeholder').each(function (index, element) {
         var id = jQuery(element).data('tablelayout');
         var $table = jQuery(element).next().find('table');
+        var layoutdata;
+
+        if (id == 'preview') {
+            layoutdata = JSON.parse(jQuery('#dw__editform').find('input[name="tablelayout"]').val());
+            tablelayout.applyStylesToTable($table, layoutdata);
+            return;
+        }
 
         if (typeof JSINFO.plugin == 'undefined') {
             console.dir(JSINFO);
             return;
         }
-
+        layoutdata = JSINFO.plugin.tablelayout[id];
         var $secedit_form = jQuery(element).siblings('.secedit').find('form div.no');
-        var $input = jQuery('<input name="tablelayout" type="hidden">').val(JSON.stringify(JSINFO.plugin.tablelayout[id]));
+        var $input = jQuery('<input name="tablelayout" type="hidden">').val(JSON.stringify(layoutdata));
         $secedit_form.prepend($input);
-        if (JSINFO.plugin.tablelayout[id].colwidth.length) {
-            var numCols = tablelayout.getNumberOfTableCols($table);
-            var $colgroup = jQuery('<colgroup>');
-            JSINFO.plugin.tablelayout[id].colwidth.forEach(function (width, index) {
-                if (index+1 > numCols) {
-                    return;
-                }
-                var $col = jQuery('<col>');
-                if (width != '-') {
-                    $col.css('width', width);
-                }
-                $colgroup.append($col);
-            });
-            $table.prepend($colgroup);
-            if (JSINFO.plugin.tablelayout[id].colwidth.length == numCols) {
-                // todo: should we throw an error if there are MORE widths defined than cols in the table?
-                $table.css('min-width', 'unset');
-            }
+        if (layoutdata.colwidth.length) {
+            tablelayout.applyStylesToTable($table, layoutdata);
         }
 
     });

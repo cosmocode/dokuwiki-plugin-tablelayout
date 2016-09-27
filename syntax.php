@@ -79,6 +79,11 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
             return $data;
         }
         $data['id'] = $this->count;
+        global $ACT;
+        if (act_clean($ACT) == 'preview') {
+            $data['id'] = 'preview';
+        }
+
         $this->count += 1;
         return $data;
     }

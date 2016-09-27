@@ -27,6 +27,20 @@ class action_plugin_tablelayout extends DokuWiki_Action_Plugin {
         $controller->register_hook('COMMON_WIKIPAGE_SAVE', 'BEFORE', $this, 'ensure_pagesave');
         $controller->register_hook('IO_WIKIPAGE_WRITE', 'BEFORE', $this, 'handle_pagesave_before');
         $controller->register_hook('DOKUWIKI_STARTED', 'AFTER', $this, 'handle_dokuwik_started');
+        $controller->register_hook('PLUGIN_EDITTABLE_PREPROCESS_EDITOR', 'AFTER', $this, 'handle_preview');
+    }
+
+    public function handle_preview (Doku_Event $event, $param) {
+        global $ACT, $TEXT, $INPUT;
+        if (act_clean($ACT) != 'preview') {
+            return;
+        }
+
+        /** @var helper_plugin_tablelayout $helper */
+        $helper = $this->loadHelper('tablelayout');
+        $newSyntax = $helper->buildSyntaxFromJSON($INPUT->str('tablelayout'));
+
+        $TEXT = $newSyntax . "\n" . $TEXT;
     }
 
     /**
