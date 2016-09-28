@@ -25,7 +25,7 @@ class helper_plugin_tablelayout extends DokuWiki_Plugin {
             $syntax[] = 'colwidth="' . join(',',$layout->colwidth) . '"';
         }
         if (!empty($layout->float)) {
-            $syntax[] = "float=" . $layout->rowsFixed;
+            $syntax[] = "float=" . $layout->float;
         }
         $syntax = '{{tablelayout?' . join('&', $syntax) . '}}';
         return $syntax;
