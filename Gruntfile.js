@@ -22,7 +22,7 @@ module.exports = function(grunt) {
               jquery: true,
               qunit: true
           },
-	  all: ['script.js', '_jstest/*.js']
+	  all: ['script/*.js', '_jstest/*.js']
     },
     qunit: {
       all: ['_jstest/*.html']
