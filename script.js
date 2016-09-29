@@ -13,9 +13,15 @@ var tablelayout = function () {
     };
 
     exports.applyStylesToTable = function ($table, layoutdata) {
+        if (layoutdata.colwidth && layoutdata.colwidth.length) {
+            exports.styleColumnWidths($table, layoutdata.colwidth);
+        }
+    };
+
+    exports.styleColumnWidths = function ($table, colwidths) {
         var numCols = tablelayout.getNumberOfTableCols($table);
         var $colgroup = jQuery('<colgroup>');
-        layoutdata.colwidth.forEach(function (width, index) {
+        colwidths.forEach(function (width, index) {
             if (index+1 > numCols) {
                 return;
             }
@@ -26,7 +32,7 @@ var tablelayout = function () {
             $colgroup.append($col);
         });
         $table.prepend($colgroup);
-        if (layoutdata.colwidth.length == numCols) {
+        if (colwidths.length == numCols) {
             // todo: should we throw an error if there are MORE widths defined than cols in the table?
             $table.css('min-width', 'unset');
             $table.css('width', 'unset');
@@ -58,7 +64,7 @@ jQuery(function(){
         var $secedit_form = jQuery(element).siblings('.secedit').find('form div.no');
         var $input = jQuery('<input name="tablelayout" type="hidden">').val(JSON.stringify(layoutdata));
         $secedit_form.prepend($input);
-        if (layoutdata.colwidth.length) {
+        if (layoutdata) {
             tablelayout.applyStylesToTable($table, layoutdata);
         }
 
