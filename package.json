@@ -10,6 +10,9 @@
   },
   "devDependencies": {
     "grunt-contrib-jshint": "^1.0.0",
-    "grunt-contrib-watch": "^0.6.1"
+    "grunt-contrib-qunit": "^1.2.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "jquery": "^3.1.1",
+    "qunitjs": "^2.0.1"
   }
 }
