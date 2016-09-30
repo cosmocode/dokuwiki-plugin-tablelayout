@@ -31,6 +31,10 @@ var edittable_plugins = edittable_plugins || {};
             handsontable_config.manualColumnResize = colWidths;
         }
 
+        if (tablelayout.rowsFixed && tablelayout.rowsVisible) {
+            handsontable_config.fixedRowsTop = parseInt(tablelayout.rowsFixed);
+        }
+
         handsontable_config.afterColumnResize = function (col, width) {
             if ($layoutfield) {
                 tablelayout.colwidth[col] = width + 'px';
