@@ -30,7 +30,15 @@ QUnit.test("fix 1 row and have 2 visible", function(assert) {
         '</tr> ' +
     '</tbody></table></div></div>';
     tablelayout.freezeTableRows($table, 1, 2);
-    assert.deepEqual($fixture.html().replace(/\s\s+/g, ' ').trim(), expected_html.replace(/\s\s+/g, ' ').trim());
+    var actual_html = $fixture.html().replace(/\s\s+/g, ' ').trim();
+
+    var actual_height = parseInt(actual_html.substr(actual_html.indexOf('height: ')+'height: '.length, '42'.length));
+    actual_html = actual_html.replace(actual_height+'px', 'px');
+    var expected_height = parseInt(expected_html.substr(expected_html.indexOf('height: ')+'height: '.length, '42'.length));
+    expected_html = expected_html.replace(expected_height+'px', 'px');
+
+    assert.ok(expected_height - 5 < actual_height && actual_height < expected_height + 5, 'calculated height is ok');
+    assert.deepEqual(actual_html, expected_html.replace(/\s\s+/g, ' ').trim(), 'html is ok');
 });
 
 }(tablelayout));
