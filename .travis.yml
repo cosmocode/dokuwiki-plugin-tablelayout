@@ -1,5 +1,3 @@
-# Config file for travis-ci.org
-
 language: php
 php:
   - "7.1"
@@ -11,6 +9,10 @@ php:
 env:
   - DOKUWIKI=master
   - DOKUWIKI=stable
-before_install: wget https://raw.github.com/splitbrain/dokuwiki-travis/master/travis.sh
+before_install:
+  - wget https://raw.github.com/splitbrain/dokuwiki-travis/master/travis.sh
+  - npm install
 install: sh travis.sh
-script: cd _test && phpunit --stderr --group plugin_tablelayout
+script:
+  - cd _test && phpunit --stderr --group plugin_tablelayout
+  - cd ../lib/plugins/tablelayout && grunt
