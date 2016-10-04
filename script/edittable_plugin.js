@@ -9,11 +9,11 @@ var edittable_plugins = edittable_plugins || {};
         }
 
         var colWidths = [];
-        var tablelayout = $layoutfield.val();
-        if (tablelayout) {
-            tablelayout = JSON.parse(tablelayout);
+        var layout = $layoutfield.val();
+        if (layout) {
+            layout = JSON.parse(layout);
 
-            tablelayout.colwidth.forEach(function (currentValue, index) {
+            layout.colwidth.forEach(function (currentValue, index) {
                 var undefinedValue;
                 if (!currentValue || currentValue.substr(-2) != 'px') {
                     colWidths.push(undefinedValue);
@@ -23,7 +23,7 @@ var edittable_plugins = edittable_plugins || {};
                 colWidths[index] = parseInt(currentValue);
             });
         } else {
-            tablelayout = {
+            layout = {
                 colwidth: []
             };
         }
@@ -31,14 +31,14 @@ var edittable_plugins = edittable_plugins || {};
             handsontable_config.manualColumnResize = colWidths;
         }
 
-        if (tablelayout.rowsFixed && tablelayout.rowsVisible) {
-            handsontable_config.fixedRowsTop = parseInt(tablelayout.rowsFixed);
+        if (layout.rowsFixed && layout.rowsVisible) {
+            handsontable_config.fixedRowsTop = parseInt(layout.rowsFixed);
         }
 
         handsontable_config.afterColumnResize = function (col, width) {
             if ($layoutfield) {
-                tablelayout.colwidth[col] = width + 'px';
-                $layoutfield.val(JSON.stringify(tablelayout));
+                layout.colwidth[col] = width + 'px';
+                $layoutfield.val(JSON.stringify(layout));
             }
         };
 
@@ -46,8 +46,8 @@ var edittable_plugins = edittable_plugins || {};
         var originalBeforeRemoveCol = handsontable_config.beforeRemoveCol;
         handsontable_config.beforeRemoveCol = function (index, amount) {
             originalBeforeRemoveCol.call(this, index, amount);
-            tablelayout.colwidth.splice(index, amount);
-            $layoutfield.val(JSON.stringify(tablelayout));
+            layout.colwidth.splice(index, amount);
+            $layoutfield.val(JSON.stringify(layout));
         };
 
         var originalAfterRemoveCol = handsontable_config.afterRemoveCol;
@@ -59,8 +59,8 @@ var edittable_plugins = edittable_plugins || {};
         var originalAfterCreateCol = handsontable_config.afterCreateCol;
         handsontable_config.afterCreateCol = function (index, amount) {
             originalAfterCreateCol.call(this, index, amount);
-            tablelayout.colwidth.splice(index, 0, null);
-            $layoutfield.val(JSON.stringify(tablelayout));
+            layout.colwidth.splice(index, 0, null);
+            $layoutfield.val(JSON.stringify(layout));
             forcePreview = true;
         };
 
