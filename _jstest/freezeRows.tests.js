@@ -7,7 +7,7 @@ QUnit.module( "Tests for tablelayout.freezeTableRows" );
 QUnit.test("fix 1 row and have 2 visible", function(assert) {
     var $fixture = $( "#qunit-fixture" );
     var $table = $fixture.find( "table" );
-    var expected_html = '<div class="table sectionedit8"><div><table class="inline"> ' +
+    var expected_html = '<div class="plugin_tablelayout_placeholder" data-tablelayout="0"></div> <div class="table sectionedit8"><div><table class="inline"> ' +
         '<thead> ' +
         '<tr class="row0"> ' +
         '    <th class="col0 leftalign"> Column 1  </th><th class="col1 leftalign"> Column 2  </th> ' +
@@ -28,7 +28,7 @@ QUnit.test("fix 1 row and have 2 visible", function(assert) {
         '<tr class="row4"> ' +
         '    <td class="col0 leftalign"> 5         </td><td class="col1 leftalign">           </td> ' +
         '</tr> ' +
-    '</tbody></table></div></div>';
+        '</tbody></table></div></div> <div class="secedit editbutton_table editbutton_2" style="display: block; margin-top: -12px;"></div>';
     tablelayout.freezeTableRows($table, 1, 2);
     var actual_html = $fixture.html().replace(/\s\s+/g, ' ').trim();
 
