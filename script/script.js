@@ -1,6 +1,6 @@
 var tablelayout = tablelayout || {};
 
-jQuery(window).load(function(){
+jQuery(window).on('load', function(){
     'use strict';
 
     jQuery('.plugin_tablelayout_placeholder').each(function (index, element) {
