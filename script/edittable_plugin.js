@@ -1,4 +1,5 @@
 var edittable_plugins = edittable_plugins || {};
+var tablelayout = tablelayout || {};
 
 (function (edittable_plugins) {
     "use strict";
@@ -9,24 +10,17 @@ var edittable_plugins = edittable_plugins || {};
         }
 
         var colWidths = [];
-        var layout = $layoutfield.val();
-        if (layout) {
-            layout = JSON.parse(layout);
+        var layout = tablelayout.initLayout($layoutfield.val());
+        layout.colwidth.forEach(function (currentValue, index) {
+            var undefinedValue;
+            if (!currentValue || currentValue.substr(-2) != 'px') {
+                colWidths.push(undefinedValue);
+                return;
+            }
+            console.log('Set size of col ' + index + ' to ' + currentValue);
+            colWidths[index] = parseInt(currentValue);
+        });
 
-            layout.colwidth.forEach(function (currentValue, index) {
-                var undefinedValue;
-                if (!currentValue || currentValue.substr(-2) != 'px') {
-                    colWidths.push(undefinedValue);
-                    return;
-                }
-                console.log('Set size of col ' + index + ' to ' + currentValue);
-                colWidths[index] = parseInt(currentValue);
-            });
-        } else {
-            layout = {
-                colwidth: []
-            };
-        }
         if (colWidths.length) {
             handsontable_config.manualColumnResize = colWidths;
         }

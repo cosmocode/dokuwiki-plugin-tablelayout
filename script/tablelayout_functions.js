@@ -75,5 +75,17 @@ var tablelayout = tablelayout || {};
         $table.wrap(tableWrapper);
     };
 
+    exports.initLayout = function (json) {
+        var layout;
+        if (json) {
+            layout = JSON.parse(json);
+        } else {
+            layout = {
+                colwidth: []
+            };
+        }
+        return layout;
+    };
+
     return exports;
 }(tablelayout));
