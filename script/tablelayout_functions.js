@@ -13,7 +13,20 @@ var tablelayout = tablelayout || {};
         return max;
     };
 
+    exports.floatTable = function ($table, direction) {
+        var $parentDiv = $table.closest('div.table');
+        var $elements = jQuery([]);
+        $elements = $elements.add($parentDiv.prev('div.plugin_tablelayout_placeholder'));
+        $elements = $elements.add($parentDiv);
+        $elements = $elements.add($parentDiv.next('div.secedit.editbutton_table'));
+        $elements.wrapAll('<div class="floatwrapper">');
+        $elements.parent('div.floatwrapper').css('float', direction);
+    };
+
     exports.applyStylesToTable = function ($table, layoutdata) {
+        if (layoutdata.float === 'right' || layoutdata.float === 'left') {
+            exports.floatTable($table, layoutdata.float);
+        }
         if (layoutdata.colwidth && layoutdata.colwidth.length) {
             exports.styleColumnWidths($table, layoutdata.colwidth);
         }
