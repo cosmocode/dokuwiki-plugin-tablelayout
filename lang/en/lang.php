@@ -12,5 +12,8 @@
 // $lang['fixme'] = 'FIXME';
 
 
+$lang['js']['button:apply'] = 'Apply & Preview';
+$lang['js']['label:rowsFixed'] = 'Number of rows fixed to the top';
+$lang['js']['label:rowsVisible'] = 'Number of additional rows visible on the page';
 
 //Setup VIM: ex: et ts=4 :

@@ -11,7 +11,10 @@ module.exports = function(grunt) {
                   DOKU_BASE: false,
                   JSINFO: false,
                   LANG: false,
-                  initToolbar: false
+                  initToolbar: false,
+                  pickercounter: true,
+                  createPicker: false,
+                  pickerToggle: false
               },
               strict: true,
               undef: true,
