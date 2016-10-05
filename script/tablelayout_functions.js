@@ -20,11 +20,15 @@ var tablelayout = tablelayout || {};
         $elements = $elements.add($parentDiv);
         $elements = $elements.add($parentDiv.next('div.secedit.editbutton_table'));
         $elements.wrapAll('<div class="floatwrapper">');
-        $elements.parent('div.floatwrapper').css('float', direction);
+        if (direction == 'center') {
+            $elements.parent('div.floatwrapper').css('margin', '0 auto').css('display', 'table');
+        } else {
+            $elements.parent('div.floatwrapper').css('float', direction);
+        }
     };
 
     exports.applyStylesToTable = function ($table, layoutdata) {
-        if (layoutdata.float === 'right' || layoutdata.float === 'left') {
+        if (layoutdata.float === 'right' || layoutdata.float === 'left' || layoutdata.float === 'center') {
             exports.floatTable($table, layoutdata.float);
         }
         if (layoutdata.colwidth && layoutdata.colwidth.length) {
