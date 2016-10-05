@@ -89,13 +89,12 @@ var tablelayout = tablelayout || {};
     };
 
     exports.initLayout = function (json) {
-        var layout;
+        var layout = {};
         if (json) {
             layout = JSON.parse(json);
-        } else {
-            layout = {
-                colwidth: []
-            };
+        }
+        if (typeof layout.colwidth == 'undefined') {
+            layout.colwidth = [];
         }
         return layout;
     };
