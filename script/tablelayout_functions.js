@@ -20,11 +20,7 @@ var tablelayout = tablelayout || {};
         $elements = $elements.add($parentDiv);
         $elements = $elements.add($parentDiv.next('div.secedit.editbutton_table'));
         $elements.wrapAll('<div class="floatwrapper">');
-        if (direction == 'center') {
-            $elements.parent('div.floatwrapper').css('margin', '0 auto').css('display', 'table');
-        } else {
-            $elements.parent('div.floatwrapper').css('float', direction);
-        }
+        $elements.parent('div.floatwrapper').addClass(direction);
     };
 
     exports.applyStylesToTable = function ($table, layoutdata) {
