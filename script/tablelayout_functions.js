@@ -14,6 +14,9 @@ var tablelayout = tablelayout || {};
     };
 
     exports.floatTable = function ($table, direction) {
+        if ($table.width() > jQuery('div.page').width()) {
+            return;
+        }
         var $parentDiv = $table.closest('div.table');
         var $elements = jQuery([]);
         $elements = $elements.add($parentDiv.prev('div.plugin_tablelayout_placeholder'));
@@ -24,14 +27,14 @@ var tablelayout = tablelayout || {};
     };
 
     exports.applyStylesToTable = function ($table, layoutdata) {
-        if (layoutdata.float === 'right' || layoutdata.float === 'left' || layoutdata.float === 'center') {
-            exports.floatTable($table, layoutdata.float);
-        }
         if (layoutdata.colwidth && layoutdata.colwidth.length) {
             exports.styleColumnWidths($table, layoutdata.colwidth);
         }
         if (layoutdata.rowsFixed > 0 && layoutdata.rowsVisible > 0) {
             exports.freezeTableRows($table, layoutdata.rowsFixed, layoutdata.rowsVisible);
+        }
+        if (layoutdata.float === 'right' || layoutdata.float === 'left' || layoutdata.float === 'center') {
+            exports.floatTable($table, layoutdata.float);
         }
     };
 
