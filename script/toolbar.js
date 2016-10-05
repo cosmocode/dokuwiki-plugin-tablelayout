@@ -10,6 +10,10 @@ var tablelayout = tablelayout || {};
  */
 function addBtnActionPlugin_tablelayout($btn, props, edid) {
     "use strict";
+    if (!jQuery('#edittable__editor').length) {
+        $btn.css('display', 'none');
+        return '';
+    }
     var pickerid = 'picker' + (pickercounter += 1);
     var $picker = jQuery(createPicker(pickerid, [], edid))
             .attr('aria-hidden', 'true')
@@ -19,31 +23,47 @@ function addBtnActionPlugin_tablelayout($btn, props, edid) {
     // when the toolbar button is clicked
     $btn.click(
         function (e) {
-            var $layoutfield = jQuery('#dw__editform').find('input[name=tablelayout]');
-            var layout = tablelayout.initLayout($layoutfield.val());
-            var $rowsFixedInput = jQuery('<input name="rowsFixed">').val(layout.rowsFixed);
-            var $rowsFixedLabel = jQuery('<label>').append(jQuery('<span>').text(LANG.plugins.tablelayout['label:rowsFixed'])).append($rowsFixedInput);
-            var $rowsVisibleInput = jQuery('<input name="rowsVisible">').val(layout.rowsVisible);
-            var $rowsVisibleLabel = jQuery('<label>').append(jQuery('<span>').text(LANG.plugins.tablelayout['label:rowsVisible'])).append($rowsVisibleInput);
-            var $applyButton = jQuery('<button type="submit">').text(LANG.plugins.tablelayout['button:apply']);
-            var $layoutForm = jQuery('<form id="tablelayoutForm">');
-            $layoutForm.submit(function (event) {
-                event.preventDefault();
-                var layout = tablelayout.initLayout($layoutfield.val());
-                var rowsFixed = parseInt(jQuery('input[name="rowsFixed"]').val());
-                var rowsVisible = parseInt(jQuery('input[name="rowsVisible"]').val());
-                if (!(rowsFixed && rowsFixed > 0 && rowsVisible && rowsVisible > 0)) {
-                    delete layout.rowsFixed;
-                    delete layout.rowsVisible;
-                } else {
-                    layout.rowsFixed = rowsFixed;
-                    layout.rowsVisible = rowsVisible;
+            $picker.html('<div>' + LANG.plugins.magicmatcher.loading + '</div>');
+            jQuery.post(
+                DOKU_BASE + 'lib/exe/ajax.php',
+                {
+                    call: 'plugin_tablelayout_toolbar'
                 }
-                $layoutfield.val(JSON.stringify(layout));
-                jQuery('#dw__editform').find('button[name="do[preview]"]').click();
+            ).done(function (data) {
+                $picker.html(data);
+                var $layoutfield = jQuery('#dw__editform').find('input[name=tablelayout]');
+                var layout = tablelayout.initLayout($layoutfield.val());
+                if (layout.rowsFixed && layout.rowsVisible) {
+                    $picker.find('input[name="rowsFixed"]').val(layout.rowsFixed);
+                    $picker.find('input[name="rowsVisible"]').val(layout.rowsVisible);
+                }
+                if (layout.float) {
+                    $picker.find('select[name="float"]').val(layout.float);
+                }
+                $picker.find('form').submit(function (event) {
+                    event.preventDefault();
+                    var layout = tablelayout.initLayout($layoutfield.val());
+                    var rowsFixed = parseInt($picker.find('input[name="rowsFixed"]').val());
+                    var rowsVisible = parseInt($picker.find('input[name="rowsVisible"]').val());
+                    var float = $picker.find('select[name="float"]').val();
+                    if (!(rowsFixed && rowsFixed > 0 && rowsVisible && rowsVisible > 0)) {
+                        delete layout.rowsFixed;
+                        delete layout.rowsVisible;
+                    } else {
+                        layout.rowsFixed = rowsFixed;
+                        layout.rowsVisible = rowsVisible;
+                    }
+                    if (float && (float == 'left' || float == 'right' || float == 'center')) {
+                        layout.float = float;
+                    } else {
+                        delete layout.float;
+                    }
+                    $layoutfield.val(JSON.stringify(layout));
+                    jQuery('#dw__editform').find('button[name="do[preview]"]').click();
+                });
+            }).fail(function (jqXhr) {
+                $picker.html(jqXhr.responseText);
             });
-            $layoutForm.append($rowsFixedLabel).append($rowsVisibleLabel).append($applyButton);
-            $picker.html($layoutForm.wrap('<div>'));
 
             // open/close the picker
             pickerToggle(pickerid, $btn);
@@ -54,16 +74,4 @@ function addBtnActionPlugin_tablelayout($btn, props, edid) {
 
     return pickerid;
 }
-
-jQuery(function () {
-    "use strict";
-    // add a new toolbar button, but first check if there is a toolbar
-    if (typeof window.toolbar !== 'undefined' && jQuery('#edittable__editor').length) {
-        window.toolbar[window.toolbar.length] = {
-            type: "Plugin_tablelayout", // we have a new type that links to the function
-            title: "Adjust table layout",
-            icon: "../../plugins/edittable/images/add_table.png"
-        };
-    }
-});
 
