@@ -14,7 +14,7 @@ if(!defined('DOKU_INC')) die();
  *
  * Handles the adjusted tablelayout strings from edittable
  */
-class action_plugin_tablelayout extends DokuWiki_Action_Plugin {
+class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin {
 
     /**
      * Registers a callback function for a given event
