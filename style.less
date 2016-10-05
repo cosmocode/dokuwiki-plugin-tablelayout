@@ -1,20 +1,30 @@
-div.dokuwiki div.floatwrapper {
-    margin: 5px;
-
-    &.center {
-        margin: 0 auto;
-        display: table;
+div.dokuwiki {
+    h1 + div.level1, h2 + div.level2, h3 + div.level3, h4 + div.level4, h5 + div.level5 {
+        &::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
     }
 
-    &.left {
-        float: left;
-    }
+    div.floatwrapper {
+        margin: 5px;
 
-    &.right {
-        float: right;
-    }
+        &.center {
+            margin: 0 auto;
+            display: table;
+        }
 
-    div.editbutton_table {
-        margin-bottom: 0;
+        &.left {
+            float: left;
+        }
+
+        &.right {
+            float: right;
+        }
+
+        div.editbutton_table {
+            margin-bottom: 0;
+        }
     }
 }
