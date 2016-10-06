@@ -14,6 +14,10 @@ jQuery(function () {
         }
     ).done(function (data) {
         $layoutcontainer.html(data);
+        $layoutcontainer.find('fieldset legend').click(function () {
+            $layoutcontainer.find('fieldset').toggleClass('borderless');
+            $layoutcontainer.find('fieldset > div').slideToggle();
+        });
         var $layoutfield = jQuery('#dw__editform').find('input[name=tablelayout]');
         var layout = window.tablelayout.initLayout($layoutfield.val());
         if (layout.rowsFixed && layout.rowsVisible) {

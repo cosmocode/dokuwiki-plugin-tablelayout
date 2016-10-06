@@ -1,5 +1,33 @@
 div.dokuwiki {
 
+    #layoutcontainer {
+        fieldset {
+            width: 80%;
+
+            &.borderless {
+                border: none;
+            }
+
+            legend {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+
+            label {
+                display: block;
+                text-align: left;
+                margin-bottom: 5px;
+
+                span {
+                    display: inline-block;
+                    width: 40%;
+                }
+            }
+        }
+
+        margin-bottom: 5px;
+    }
+
     div.floatwrapper {
         margin: 5px;
 

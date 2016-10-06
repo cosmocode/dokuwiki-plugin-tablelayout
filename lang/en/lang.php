@@ -5,7 +5,7 @@
  * @author Michael Große <dokuwiki@cosmocode.de>
  */
 
-$lang['title:tablelayout'] = 'Adjust table layout';
+$lang['legend:tablelayout'] = 'Adjust table layout';
 $lang['button:apply'] = 'Apply & Preview';
 $lang['label:rowsFixed'] = 'Number of rows fixed to the top';
 $lang['label:rowsVisible'] = 'Number of additional rows visible on the page';

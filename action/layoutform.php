@@ -37,6 +37,8 @@ class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin {
         header('Content-Type: text/html; charset=utf-8');
 
         $form = new \dokuwiki\Form\Form();
+        $form->addFieldsetOpen($this->getLang('legend:tablelayout'))->addClass('borderless');
+        $form->addTagOpen('div')->attr('style', 'display: none;');
         $form->addTextInput('rowsFixed', $this->getLang('label:rowsFixed'))->attrs(array('type' => 'number', 'min' => '0'))->val(0);
         $form->addTextInput('rowsVisible', $this->getLang('label:rowsVisible'))->attrs(array('type' => 'number', 'min' => '0'))->val(0);
         $options = array(
@@ -47,6 +49,8 @@ class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin {
         );
         $form->addDropdown('float', $options, $this->getLang('label:alignment'))->val('default');
         $form->addButton('', $this->getLang('button:apply'))->attr('type', 'submit');
+        $form->addTagClose('div');
+        $form->addFieldsetClose();
 
 
         echo '<div id="tablelayoutoptions">' . $form->toHTML() . '</div>';
