@@ -9,7 +9,7 @@
 // must be run within Dokuwiki
 if(!defined('DOKU_INC')) die();
 
-class action_plugin_tablelayout_toolbarbutton extends DokuWiki_Action_Plugin {
+class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin {
 
     /**
      * Registers a callback function for a given event
