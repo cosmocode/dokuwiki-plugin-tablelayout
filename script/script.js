@@ -15,7 +15,6 @@ jQuery(window).on('load', function(){
         }
 
         if (typeof JSINFO.plugin == 'undefined') {
-            console.dir(JSINFO);
             return;
         }
         layoutdata = JSINFO.plugin.tablelayout[id];

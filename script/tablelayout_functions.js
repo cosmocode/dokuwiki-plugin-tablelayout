@@ -85,7 +85,6 @@ window.tablelayout = window.tablelayout || {};
         var height = 0;
         for (i = rowsToFreeze; i < rowsToFreeze + rowsVisible; i += 1) {
             height += jQuery($tableRows[i]).height();
-            console.log('adding height of row ' + i + ' of ' + jQuery($tableRows[i]).height() + ' to result in a total of ' + height);
         }
         var tableWrapper = jQuery('<div></div>').css({'overflow-y': 'scroll', 'height': height +'px'});
         $table.wrap(tableWrapper);

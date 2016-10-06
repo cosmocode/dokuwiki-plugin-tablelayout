@@ -17,7 +17,6 @@ window.tablelayout = window.tablelayout || {};
                 colWidths.push(undefinedValue);
                 return;
             }
-            console.log('Set size of col ' + index + ' to ' + currentValue);
             colWidths[index] = parseInt(currentValue);
         });
 
