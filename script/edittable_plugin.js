@@ -13,7 +13,7 @@ var tablelayout = tablelayout || {};
         var layout = tablelayout.initLayout($layoutfield.val());
         layout.colwidth.forEach(function (currentValue, index) {
             var undefinedValue;
-            if (!currentValue || currentValue.substr(-2) !== 'px') {
+            if (!currentValue || currentValue.substr(-'px'.length) !== 'px') {
                 colWidths.push(undefinedValue);
                 return;
             }

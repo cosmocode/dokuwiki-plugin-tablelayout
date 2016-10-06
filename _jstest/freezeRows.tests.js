@@ -29,7 +29,9 @@ QUnit.test('fix 1 row and have 2 visible', function(assert) {
         '    <td class="col0 leftalign"> 5         </td><td class="col1 leftalign">           </td> ' +
         '</tr> ' +
         '</tbody></table></div></div> <div class="secedit editbutton_table editbutton_2" style="display: block; margin-top: -12px;"></div>';
-    tablelayout.freezeTableRows($table, 1, 2);
+    var rowsFrozen = 1;
+    var rowsVisible = 2;
+    tablelayout.freezeTableRows($table, rowsFrozen, rowsVisible);
     var actual_html = $fixture.html().replace(/\s\s+/g, ' ').trim();
 
     var actual_height = parseInt(actual_html.substr(actual_html.indexOf('height: ')+'height: '.length, '42'.length));
@@ -37,7 +39,8 @@ QUnit.test('fix 1 row and have 2 visible', function(assert) {
     var expected_height = parseInt(expected_html.substr(expected_html.indexOf('height: ')+'height: '.length, '42'.length));
     expected_html = expected_html.replace(expected_height+'px', 'px');
 
-    assert.ok(expected_height - 5 < actual_height && actual_height < expected_height + 5, 'calculated height is ok');
+    var ALLOWED_VARIANCE = 5;
+    assert.ok(expected_height - ALLOWED_VARIANCE < actual_height && actual_height < expected_height + ALLOWED_VARIANCE, 'calculated height is ok');
     assert.deepEqual(actual_html, expected_html.replace(/\s\s+/g, ' ').trim(), 'html is ok');
 });
 
