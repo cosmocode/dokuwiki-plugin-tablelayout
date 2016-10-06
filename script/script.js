@@ -8,7 +8,7 @@ jQuery(window).on('load', function(){
         var $table = jQuery(element).next().find('table');
         var layoutdata;
 
-        if (id == 'preview') {
+        if (id === 'preview') {
             layoutdata = JSON.parse(jQuery('#dw__editform').find('input[name="tablelayout"]').val());
             tablelayout.applyStylesToTable($table, layoutdata);
             return;

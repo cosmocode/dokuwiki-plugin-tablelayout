@@ -46,13 +46,13 @@ var tablelayout = tablelayout || {};
                 return;
             }
             var $col = jQuery('<col>');
-            if (width != '-') {
+            if (width !== '-') {
                 $col.css('width', width);
             }
             $colgroup.append($col);
         });
         $table.prepend($colgroup);
-        if (colwidths.length == numCols) {
+        if (colwidths.length === numCols) {
             // todo: should we throw an error if there are MORE widths defined than cols in the table?
             $table.css('min-width', 'unset');
             $table.css('width', 'unset');

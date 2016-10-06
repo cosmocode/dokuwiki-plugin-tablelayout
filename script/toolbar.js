@@ -53,7 +53,7 @@ function addBtnActionPlugin_tablelayout($btn, props, edid) {
                         layout.rowsFixed = rowsFixed;
                         layout.rowsVisible = rowsVisible;
                     }
-                    if (float && (float == 'left' || float == 'right' || float == 'center')) {
+                    if (float && (float === 'left' || float === 'right' || float === 'center')) {
                         layout.float = float;
                     } else {
                         delete layout.float;
