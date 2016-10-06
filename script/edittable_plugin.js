@@ -2,7 +2,7 @@ var edittable_plugins = edittable_plugins || {};
 var tablelayout = tablelayout || {};
 
 (function (edittable_plugins) {
-    "use strict";
+    'use strict';
     var modifyHandsontableConfig = function (handsontable_config, $form) {
         var $layoutfield = $form.find('input[name=tablelayout]');
         if (!$layoutfield.length) {

@@ -9,7 +9,7 @@ var tablelayout = tablelayout || {};
  * @return {string}
  */
 function addBtnActionPlugin_tablelayout($btn, props, edid) {
-    "use strict";
+    'use strict';
     if (!jQuery('#edittable__editor').length) {
         $btn.css('display', 'none');
         return '';

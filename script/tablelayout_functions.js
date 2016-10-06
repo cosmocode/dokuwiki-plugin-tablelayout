@@ -1,7 +1,7 @@
 var tablelayout = tablelayout || {};
 
 (function (exports) {
-    "use strict";
+    'use strict';
     exports.getNumberOfTableCols = function ($table) {
         var $rows = $table.find('tr');
         var max = 0;
@@ -87,7 +87,7 @@ var tablelayout = tablelayout || {};
             height += jQuery($tableRows[i]).height();
             console.log('adding height of row ' + i + ' of ' + jQuery($tableRows[i]).height() + ' to result in a total of ' + height);
         }
-        var tableWrapper = jQuery('<div></div>').css({"overflow-y": "scroll", "height": height +'px'});
+        var tableWrapper = jQuery('<div></div>').css({'overflow-y': 'scroll', 'height': height +'px'});
         $table.wrap(tableWrapper);
     };
 

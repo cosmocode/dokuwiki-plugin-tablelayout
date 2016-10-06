@@ -1,12 +1,12 @@
 var tablelayout = tablelayout || {};
 
 (function (tablelayout) {
-    "use strict";
+    'use strict';
 
-QUnit.module( "Tests for tablelayout.floatTable" );
-QUnit.test("float table right", function(assert) {
-    var $fixture = $( "#qunit-fixture" );
-    var $table = $fixture.find( "table" );
+QUnit.module( 'Tests for tablelayout.floatTable' );
+QUnit.test('float table right', function(assert) {
+    var $fixture = $( '#qunit-fixture' );
+    var $table = $fixture.find( 'table' );
     var expected_html = '<div class="floatwrapper right"><div class="plugin_tablelayout_placeholder" data-tablelayout="0"></div><div class="table sectionedit8"><table class="inline"> ' +
         '<thead> ' +
         '<tr class="row0"> ' +
@@ -33,9 +33,9 @@ QUnit.test("float table right", function(assert) {
 });
 
 
-    QUnit.test("float table center", function(assert) {
-        var $fixture = $( "#qunit-fixture" );
-        var $table = $fixture.find( "table" );
+    QUnit.test('float table center', function(assert) {
+        var $fixture = $( '#qunit-fixture' );
+        var $table = $fixture.find( 'table' );
         var expected_html = '<div class="floatwrapper center"><div class="plugin_tablelayout_placeholder" data-tablelayout="0"></div><div class="table sectionedit8"><table class="inline"> ' +
             '<thead> ' +
             '<tr class="row0"> ' +
