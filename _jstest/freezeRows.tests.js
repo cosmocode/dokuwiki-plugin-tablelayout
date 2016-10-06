@@ -5,7 +5,7 @@ var tablelayout = tablelayout || {};
 
 QUnit.module( 'Tests for tablelayout.freezeTableRows' );
 QUnit.test('fix 1 row and have 2 visible', function(assert) {
-    var $fixture = $( '#qunit-fixture' );
+    var $fixture = jQuery( '#qunit-fixture' );
     var $table = $fixture.find( 'table' );
     var expected_html = '<div class="plugin_tablelayout_placeholder" data-tablelayout="0"></div> <div class="table sectionedit8"><div><table class="inline"> ' +
         '<thead> ' +
