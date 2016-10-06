@@ -1,4 +1,4 @@
-var tablelayout = tablelayout || {};
+window.tablelayout = window.tablelayout || {};
 
 (function (tablelayout) {
     'use strict';
@@ -61,4 +61,4 @@ var tablelayout = tablelayout || {};
         assert.deepEqual(actual_html, expected_html.replace(/\s\s+/g, ' ').trim(), 'html is ok');
     });
 
-}(tablelayout));
+}(window.tablelayout));

@@ -1,4 +1,4 @@
-var tablelayout = tablelayout || {};
+window.tablelayout = window.tablelayout || {};
 
 jQuery(window).on('load', function(){
     'use strict';
@@ -10,7 +10,7 @@ jQuery(window).on('load', function(){
 
         if (id === 'preview') {
             layoutdata = JSON.parse(jQuery('#dw__editform').find('input[name="tablelayout"]').val());
-            tablelayout.applyStylesToTable($table, layoutdata);
+            window.tablelayout.applyStylesToTable($table, layoutdata);
             return;
         }
 
@@ -23,7 +23,7 @@ jQuery(window).on('load', function(){
         var $input = jQuery('<input name="tablelayout" type="hidden">').val(JSON.stringify(layoutdata));
         $secedit_form.prepend($input);
         if (layoutdata) {
-            tablelayout.applyStylesToTable($table, layoutdata);
+            window.tablelayout.applyStylesToTable($table, layoutdata);
         }
 
     });

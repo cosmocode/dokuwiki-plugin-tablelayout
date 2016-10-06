@@ -1,5 +1,5 @@
 /* exported addBtnActionPlugin_tablelayout */
-var tablelayout = tablelayout || {};
+window.tablelayout = window.tablelayout || {};
 /**
  * Attaches the mechanics on our plugin's button
  *
@@ -8,7 +8,7 @@ var tablelayout = tablelayout || {};
  * @param {string} edid the editor's ID
  * @return {string}
  */
-function addBtnActionPlugin_tablelayout($btn, props, edid) {
+window.addBtnActionPlugin_tablelayout = function addBtnActionPlugin_tablelayout($btn, props, edid) {
     'use strict';
     if (!jQuery('#edittable__editor').length) {
         $btn.css('display', 'none');
@@ -32,7 +32,7 @@ function addBtnActionPlugin_tablelayout($btn, props, edid) {
             ).done(function (data) {
                 $picker.html(data);
                 var $layoutfield = jQuery('#dw__editform').find('input[name=tablelayout]');
-                var layout = tablelayout.initLayout($layoutfield.val());
+                var layout = window.tablelayout.initLayout($layoutfield.val());
                 if (layout.rowsFixed && layout.rowsVisible) {
                     $picker.find('input[name="rowsFixed"]').val(layout.rowsFixed);
                     $picker.find('input[name="rowsVisible"]').val(layout.rowsVisible);
@@ -42,7 +42,7 @@ function addBtnActionPlugin_tablelayout($btn, props, edid) {
                 }
                 $picker.find('form').submit(function (event) {
                     event.preventDefault();
-                    var layout = tablelayout.initLayout($layoutfield.val());
+                    var layout = window.tablelayout.initLayout($layoutfield.val());
                     var rowsFixed = parseInt($picker.find('input[name="rowsFixed"]').val());
                     var rowsVisible = parseInt($picker.find('input[name="rowsVisible"]').val());
                     var float = $picker.find('select[name="float"]').val();
@@ -73,5 +73,5 @@ function addBtnActionPlugin_tablelayout($btn, props, edid) {
     );
 
     return pickerid;
-}
+};
 

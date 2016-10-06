@@ -1,4 +1,4 @@
-var tablelayout = tablelayout || {};
+window.tablelayout = window.tablelayout || {};
 
 (function (exports) {
     'use strict';
@@ -39,7 +39,7 @@ var tablelayout = tablelayout || {};
     };
 
     exports.styleColumnWidths = function ($table, colwidths) {
-        var numCols = tablelayout.getNumberOfTableCols($table);
+        var numCols = exports.getNumberOfTableCols($table);
         var $colgroup = jQuery('<colgroup>');
         colwidths.forEach(function (width, index) {
             if (index+1 > numCols) {
@@ -103,4 +103,4 @@ var tablelayout = tablelayout || {};
     };
 
     return exports;
-}(tablelayout));
+}(window.tablelayout));
