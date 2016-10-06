@@ -33,7 +33,7 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin {
 
     public function add_layout_field (Doku_Event $event, $param) {
         global $INPUT;
-        if($event->data['target'] !== 'table' || !$INPUT->has('tablelayout')) {
+        if($event->data['target'] !== 'table') {
             return;
         }
 
