@@ -30,20 +30,24 @@ module.exports = function(grunt) {
     qunit: {
       all: ['_jstest/*.html']
     },
+    eslint: {
+      all: ['<%= jshint.all %>']
+    },
     watch: {
-        jshint: {
-            files: ['<%= jshint.all %>'],
-            tasks: ['jshint']
-        },
         qunit: {
             files: ['<%= jshint.all %>', '_jstest/*.html'],
             tasks: ['qunit']
+        },
+        linting: {
+            files: ['<%= jshint.all %>'],
+            tasks: ['jshint', 'eslint']
         }
     }
 });
 grunt.loadNpmTasks('grunt-contrib-watch');
 grunt.loadNpmTasks('grunt-contrib-jshint');
-grunt.loadNpmTasks('grunt-contrib-qunit');
-grunt.registerTask('default', ['jshint', 'qunit']);
+grunt.loadNpmTasks('grunt-contrib-qunit')
+grunt.loadNpmTasks('grunt-eslint');
+grunt.registerTask('default', ['jshint', 'qunit', 'eslint']);
 };
 
