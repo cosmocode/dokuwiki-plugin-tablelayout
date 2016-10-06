@@ -18,25 +18,7 @@ class action_plugin_tablelayout_toolbarbutton extends DokuWiki_Action_Plugin {
      * @return void
      */
     public function register(Doku_Event_Handler $controller) {
-
-        $controller->register_hook('TOOLBAR_DEFINE', 'AFTER', $this, 'handle_toolbar_define');
         $controller->register_hook('AJAX_CALL_UNKNOWN', 'BEFORE', $this, 'handle_ajax_call');
-    }
-
-    /**
-     * Register a new toolbar button
-     *
-     * @param Doku_Event $event event object by reference
-     * @param mixed $param [the parameters passed as fifth argument to register_hook() when this
-     *                           handler was registered]
-     * @return void
-     */
-    public function handle_toolbar_define(Doku_Event $event, $param) {
-        $event->data[] = array(
-            'type' => 'Plugin_tablelayout',
-            'title' => $this->getLang('title:tablelayout'),
-            'icon'  => DOKU_BASE . 'lib/plugins/edittable/images/add_table.png',
-        );
     }
 
     /**
@@ -48,7 +30,7 @@ class action_plugin_tablelayout_toolbarbutton extends DokuWiki_Action_Plugin {
      * @return void
      */
     public function handle_ajax_call(Doku_Event $event, $param) {
-        if($event->data != 'plugin_tablelayout_toolbar') return;
+        if($event->data != 'plugin_tablelayout_form') return;
         $event->preventDefault();
         $event->stopPropagation();
 
