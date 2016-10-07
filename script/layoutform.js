@@ -5,7 +5,7 @@ jQuery(function () {
     if (!jQuery('#edittable__editor').length) {
         return;
     }
-    jQuery('#dw__editform').before('<div id="layoutcontainer">' + LANG.plugins.magicmatcher.loading + '</div>');
+    jQuery('#dw__editform').before('<div id="layoutcontainer">' + LANG.plugins.tablelayout.loading + '</div>');
     var $layoutcontainer = jQuery('#layoutcontainer');
     jQuery.get(
         DOKU_BASE + 'lib/exe/ajax.php',
