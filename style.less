@@ -48,4 +48,20 @@ div.dokuwiki {
             margin-bottom: 0;
         }
     }
+
+    div.table {
+        > div {
+            overflow-x: hidden;
+        }
+
+        table.flexiblewidth {
+            min-width: unset;
+            width: unset;
+        }
+
+        table.widthsfixed {
+            width: 10px;
+            table-layout: fixed;
+        }
+    }
 }

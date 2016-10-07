@@ -2,12 +2,14 @@ window.tablelayout = window.tablelayout || {};
 
 (function (exports) {
     'use strict';
+    var atomicrowIndex = null;
     exports.getNumberOfTableCols = function ($table) {
         var $rows = $table.find('tr');
         var max = 0;
         $rows.each(function(index, row) {
             if (max < row.cells.length) {
                 max = row.cells.length;
+                atomicrowIndex = index;
             }
         });
         return max;
@@ -36,6 +38,16 @@ window.tablelayout = window.tablelayout || {};
         if (layoutdata.float === 'right' || layoutdata.float === 'left' || layoutdata.float === 'center') {
             exports.floatTable($table, layoutdata.float);
         }
+    };
+
+    exports.fixColumnWidths = function ($table) {
+        var $cols = $table.find('colgroup col');
+        var $atomicrow = $table.find('.row'+atomicrowIndex);
+        $cols.each(function (index, col) {
+            var width = $atomicrow['0'].cells.item(index).offsetWidth;
+            jQuery(col).css('width', width);
+        });
+        $table.addClass('widthsfixed');
     };
 
     exports.styleColumnWidths = function ($table, colwidths) {
