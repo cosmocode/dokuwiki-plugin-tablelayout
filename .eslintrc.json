@@ -4,7 +4,6 @@
     },
     "extends": "eslint:recommended",
     "globals": {
-        "JSINFO": false,
         "LANG": false,
         "jQuery": false,
         "createPicker": false,

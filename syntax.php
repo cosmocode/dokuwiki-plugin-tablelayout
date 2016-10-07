@@ -11,8 +11,6 @@ if (!defined('DOKU_INC')) die();
 
 class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
 
-    private $count = 0;
-
     /**
      * @return string Syntax mode type
      */
@@ -78,13 +76,7 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
         if (empty($data)) {
             return $data;
         }
-        $data['id'] = $this->count;
-        global $ACT;
-        if (act_clean($ACT) == 'preview') {
-            $data['id'] = 'preview';
-        }
 
-        $this->count += 1;
         return $data;
     }
 
@@ -98,24 +90,12 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
      */
     public function render($mode, Doku_Renderer $renderer, $data) {
         if (empty($data)) return false;
-        if ($mode == 'metadata') {
-            $renderer->meta['plugin']['tablelayout'][] = $data;
-
-            global $JSINFO;
-            if (!isset($JSINFO['plugin']['tablelayout'])) {
-                $JSINFO['plugin']['tablelayout'] = array();
-            }
-            $JSINFO['plugin']['tablelayout'][] = $data;
-
-            return true;
+        if ($mode != 'xhtml') {
+            return false;
         }
 
-        if ($mode == 'xhtml') {
-            $renderer->doc .= "<div class='plugin_tablelayout_placeholder' data-tablelayout='$data[id]'></div>";
-            return true;
-        }
-
-        return false;
+        $renderer->doc .= "<div class='plugin_tablelayout_placeholder' data-tablelayout='".json_encode($data)."'></div>";
+        return true;
     }
 }
 

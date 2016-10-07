@@ -26,7 +26,6 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin {
         // todo: switch to COMMON_WIKIPAGE_SAVE with next major DokuWiki release that includes pull request #1696
         $controller->register_hook('COMMON_WIKIPAGE_SAVE', 'BEFORE', $this, 'ensure_pagesave');
         $controller->register_hook('IO_WIKIPAGE_WRITE', 'BEFORE', $this, 'handle_pagesave_before');
-        $controller->register_hook('DOKUWIKI_STARTED', 'AFTER', $this, 'handle_dokuwik_started');
         $controller->register_hook('PLUGIN_EDITTABLE_PREPROCESS_EDITOR', 'AFTER', $this, 'handle_preview');
         $controller->register_hook('HTML_EDIT_FORMSELECTION', 'BEFORE', $this, 'add_layout_field');
     }
@@ -86,14 +85,6 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin {
             return true;
         }
         return false;
-    }
-
-    public function handle_dokuwik_started (Doku_Event $event, $param) {
-        global $JSINFO, $ID;
-        $meta = p_get_metadata($ID);
-        if (!empty($meta['plugin']['tablelayout'])) {
-            $JSINFO['plugin']['tablelayout'] = $meta['plugin']['tablelayout'];
-        }
     }
 
     /**

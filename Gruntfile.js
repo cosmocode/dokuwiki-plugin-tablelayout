@@ -9,7 +9,6 @@ module.exports = function(grunt) {
               freeze: true,
               globals: {
                   DOKU_BASE: false,
-                  JSINFO: false,
                   LANG: false,
                   initToolbar: false,
                   pickercounter: true,
