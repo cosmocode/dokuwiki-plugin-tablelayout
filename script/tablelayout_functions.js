@@ -29,10 +29,12 @@ window.tablelayout = window.tablelayout || {};
     };
 
     exports.applyStylesToTable = function ($table, layoutdata) {
-        if (layoutdata.colwidth && layoutdata.colwidth.length) {
-            exports.styleColumnWidths($table, layoutdata.colwidth);
+        if (!layoutdata.colwidth) {
+            layoutdata.colwidth = [];
         }
+        exports.styleColumnWidths($table, layoutdata.colwidth);
         if (layoutdata.rowsFixed > 0 && layoutdata.rowsVisible > 0) {
+            exports.fixColumnWidths($table);
             exports.freezeTableRows($table, layoutdata.rowsFixed, layoutdata.rowsVisible);
         }
         if (layoutdata.float === 'right' || layoutdata.float === 'left' || layoutdata.float === 'center') {
