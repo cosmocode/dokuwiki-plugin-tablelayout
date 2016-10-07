@@ -76,6 +76,7 @@ window.tablelayout = window.tablelayout || {};
         if ($table.find('tr').length <= rowsToFreeze + rowsVisible) {
             return;
         }
+        var tableWidth = $table.width();
         var $frozenTable = $table.clone();
         var $frozenRows = $frozenTable.find('tr');
         for (var i = $table.find('tr').length - 1; i >= rowsToFreeze; i -= 1) {
@@ -92,12 +93,13 @@ window.tablelayout = window.tablelayout || {};
             $table.find('thead').remove();
         }
         $table.parent().prepend($frozenTable);
-        $frozenTable.wrap('<div></div>');
+        var SCROLLBAR_WIDTH = 17;
+        $frozenTable.wrap(jQuery('<div></div>').width(tableWidth+SCROLLBAR_WIDTH));
         var height = 0;
         for (i = rowsToFreeze; i < rowsToFreeze + rowsVisible; i += 1) {
             height += jQuery($tableRows[i]).height();
         }
-        var tableWrapper = jQuery('<div></div>').css({'overflow-y': 'scroll', 'height': height +'px'});
+        var tableWrapper = jQuery('<div></div>').css({'overflow-y': 'scroll'}).height(height).width(tableWidth+SCROLLBAR_WIDTH);
         $table.wrap(tableWrapper);
     };
 
