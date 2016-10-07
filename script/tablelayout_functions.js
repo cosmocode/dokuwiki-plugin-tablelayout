@@ -41,21 +41,18 @@ window.tablelayout = window.tablelayout || {};
     exports.styleColumnWidths = function ($table, colwidths) {
         var numCols = exports.getNumberOfTableCols($table);
         var $colgroup = jQuery('<colgroup>');
-        colwidths.forEach(function (width, index) {
-            if (index+1 > numCols) {
-                return;
-            }
+        for (var i = 0; i < numCols; i += 1) {
             var $col = jQuery('<col>');
-            if (width !== '-') {
-                $col.css('width', width);
+            if (colwidths[i]) {
+                $col.css('width', colwidths[i]);
             }
             $colgroup.append($col);
-        });
+        }
         $table.prepend($colgroup);
+
         if (colwidths.length === numCols) {
             // todo: should we throw an error if there are MORE widths defined than cols in the table?
-            $table.css('min-width', 'unset');
-            $table.css('width', 'unset');
+            $table.addClass('flexiblewidth');
         }
     };
 
