@@ -33,8 +33,8 @@ window.tablelayout = window.tablelayout || {};
             layoutdata.colwidth = [];
         }
         exports.styleColumnWidths($table, layoutdata.colwidth);
+        exports.fixColumnWidths($table);
         if (layoutdata.rowsFixed > 0 && layoutdata.rowsVisible > 0) {
-            exports.fixColumnWidths($table);
             exports.freezeTableRows($table, layoutdata.rowsFixed, layoutdata.rowsVisible);
         }
         if (layoutdata.float === 'right' || layoutdata.float === 'left' || layoutdata.float === 'center') {
@@ -47,7 +47,9 @@ window.tablelayout = window.tablelayout || {};
         var $atomicrow = $table.find('.row'+atomicrowIndex);
         $cols.each(function (index, col) {
             var width = $atomicrow['0'].cells.item(index).offsetWidth;
-            jQuery(col).css('width', width);
+            if (!col.style.width) {
+                jQuery(col).css('width', width);
+            }
         });
         $table.addClass('widthsfixed');
     };
