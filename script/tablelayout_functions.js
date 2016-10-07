@@ -82,14 +82,14 @@ window.tablelayout = window.tablelayout || {};
         var $frozenTable = $table.clone();
         var $frozenRows = $frozenTable.find('tr');
         for (var i = $table.find('tr').length - 1; i >= rowsToFreeze; i -= 1) {
-            $frozenRows[i].remove();
+            jQuery($frozenRows[i]).remove();
         }
         if (!$frozenTable.find('tbody').children().length) {
             $frozenTable.find('tbody').remove();
         }
         var $tableRows = $table.find('tr');
         for (i = 0; i < rowsToFreeze; i += 1) {
-            $tableRows[i].remove();
+            jQuery($tableRows[i]).remove();
         }
         if (!$table.find('thead').children().length) {
             $table.find('thead').remove();
