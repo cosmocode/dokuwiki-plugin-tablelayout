@@ -7,7 +7,7 @@ jQuery(window).on('load', function(){
         var $table = jQuery(element).next().find('table');
         var layoutdata = jQuery(element).data('tablelayout');
 
-        var $secedit_form = jQuery(element).siblings('.secedit').find('form div.no');
+        var $secedit_form = jQuery(element).next().next('.secedit').find('form div.no');
         var $input = jQuery('<input name="tablelayout" type="hidden">').val(JSON.stringify(layoutdata));
         $secedit_form.prepend($input);
         if (layoutdata) {
