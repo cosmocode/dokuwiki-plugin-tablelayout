@@ -50,8 +50,9 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin {
         /** @var helper_plugin_tablelayout $helper */
         $helper = $this->loadHelper('tablelayout');
         $newSyntax = $helper->buildSyntaxFromJSON($INPUT->str('tablelayout'));
-
-        $TEXT = $newSyntax . "\n" . $TEXT;
+        if (strlen($newSyntax) > 0) {
+            $TEXT = $newSyntax . "\n" . $TEXT;
+        }
     }
 
     /**
