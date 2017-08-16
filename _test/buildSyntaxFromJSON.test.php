@@ -21,28 +21,33 @@ class buildSyntaxFromJSON_plugin_tablelayout_test extends DokuWikiTest {
         return array(
             array(
                 '{"colwidth":["2px","3px"]}',
-                '{{tablelayout?colwidth="2px,3px"}}',
+                '{{tablelayout?colwidth="2px,3px"&tableSortRow=0}}',
                 'Simple column widths'
             ),
             array(
                 '{"colwidth":["2px",null,"3px"]}',
-                '{{tablelayout?colwidth="2px,,3px"}}',
+                '{{tablelayout?colwidth="2px,,3px"&tableSortRow=0}}',
                 'One undefined column-width in between'
             ),
             array(
                 '{"rowsFixed":2,"rowsVisible":10}',
-                '{{tablelayout?rowsFixed=2&rowsVisible=10}}',
+                '{{tablelayout?rowsFixed=2&rowsVisible=10&tableSortRow=0}}',
                 '2 fixed and 10 visible rows'
             ),
             array(
                 '{"colwidth":["2px",null,"3px"],"rowsFixed":2,"rowsVisible":10}',
-                '{{tablelayout?rowsFixed=2&rowsVisible=10&colwidth="2px,,3px"}}',
+                '{{tablelayout?rowsFixed=2&rowsVisible=10&colwidth="2px,,3px"&tableSortRow=0}}',
                 '2 fixed and 10 visible rows and col-widths'
             ),
             array(
                 '{"rowsFixed":2,"colwidth":["2px",null,"3px"],"rowsVisible":10}',
-                '{{tablelayout?rowsFixed=2&rowsVisible=10&colwidth="2px,,3px"}}',
+                '{{tablelayout?rowsFixed=2&rowsVisible=10&colwidth="2px,,3px"&tableSortRow=0}}',
                 '2 fixed and 10 visible rows and col-widths, differently sorted'
+            ),
+            array(
+                '{"rowsFixed":2,"colwidth":["2px",null,"3px"],"rowsVisible":10,"tableSortRow":2}',
+                '{{tablelayout?rowsFixed=2&rowsVisible=10&colwidth="2px,,3px"&tableSortRow=2}}',
+                '2 fixed and 10 visible rows and col-widths, set tableSortRow to 2'
             )
         );
     }

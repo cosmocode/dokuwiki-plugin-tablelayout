@@ -69,6 +69,23 @@ div.dokuwiki {
             -webkit-hyphens: auto;
             -ms-hyphens: auto;
             hyphens: auto;
+
+            &.sortable {
+                cursor: pointer;
+                background: no-repeat right;
+
+                &.unsorted {
+                    background-image: url('images/sort.svg');
+                }
+
+                &.sorted_asc {
+                    background-image: url('images/sort-ascending.svg');
+                }
+
+                &.sorted_desc {
+                    background-image: url('images/sort-descending.svg');
+                }
+            }
         }
 
         table.flexiblewidth {

@@ -27,9 +27,14 @@ jQuery(function () {
         if (layout.float) {
             $layoutcontainer.find('select[name="float"]').val(layout.float);
         }
+        if (typeof layout.tableSortRow !== 'undefined') {
+            $layoutcontainer.find('input[name="tableSortRow"]').val(layout.tableSortRow);
+        }
         $layoutcontainer.find('form').submit(function (event) {
             event.preventDefault();
             var layout = window.tablelayout.initLayout($layoutfield.val());
+
+            // validation
             var rowsFixed = parseInt($layoutcontainer.find('input[name="rowsFixed"]').val());
             var rowsVisible = parseInt($layoutcontainer.find('input[name="rowsVisible"]').val());
             var float = $layoutcontainer.find('select[name="float"]').val();
@@ -45,6 +50,9 @@ jQuery(function () {
             } else {
                 delete layout.float;
             }
+            var tableSortRow = parseInt($layoutcontainer.find('input[name="tableSortRow"]').val());
+            layout.tableSortRow = tableSortRow;
+
             $layoutfield.val(JSON.stringify(layout));
             jQuery('#dw__editform').find('button[name="do[preview]"]').click();
         });

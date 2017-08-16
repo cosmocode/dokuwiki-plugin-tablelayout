@@ -48,6 +48,7 @@ class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin {
             'center' => $this->getLang('option:center'),
         );
         $form->addDropdown('float', $options, $this->getLang('label:alignment'))->val('default');
+        $form->addTextInput('tableSortRow', $this->getLang('label:tableSortRow'))->attrs(array('type' => 'number', 'min' => '0'))->val(1);
         $form->addButton('', $this->getLang('button:apply'))->attr('type', 'submit');
         $form->addTagClose('div');
         $form->addFieldsetClose();

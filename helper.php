@@ -27,6 +27,10 @@ class helper_plugin_tablelayout extends DokuWiki_Plugin {
         if (!empty($layout->float)) {
             $syntax[] = "float=" . $layout->float;
         }
+        if (empty($layout->tableSortRow)) {
+            $layout->tableSortRow = 0;
+        }
+        $syntax[] = 'tableSortRow=' . max((int) $layout->tableSortRow,0);
         if (count($syntax) == 0) {
             return "";
         }

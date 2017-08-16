@@ -69,6 +69,9 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
                     $value = array_map('trim', explode(',', trim($value, '"\'')));
                     $data[$key] = $value;
                     break;
+                case 'tableSortRow':
+                    $data[$key] = max((int) $value, 0);
+                    break;
                 default:
                     msg('Unknown option: ' . hsc($key), -1);
             }
