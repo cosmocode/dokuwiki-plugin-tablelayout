@@ -8,7 +8,7 @@ window.tablelayout = window.tablelayout || {};
         var $fixture = jQuery( '#qunit-fixture' );
         var $table = $fixture.find( 'table' );
         var expected_html = '<div class="plugin_tablelayout_placeholder" data-tablelayout="0"></div> <div class="table sectionedit8"><table class="inline flexiblewidth">' +
-            '<colgroup><col style=\"width: 80px;\"><col style=\"width: 80px;\"></colgroup> <thead> ' +
+            '<colgroup><col style="width: 80px;"><col style="width: 80px;"></colgroup> <thead> ' +
             '<tr class="row0"> ' +
             '    <th class="col0 leftalign"> Column 1  </th><th class="col1 leftalign"> Column 2  </th> ' +
             '</tr> ' +
@@ -36,7 +36,7 @@ window.tablelayout = window.tablelayout || {};
         var $fixture = jQuery( '#qunit-fixture' );
         var $table = $fixture.find( 'table' );
         var expected_html = '<div class="plugin_tablelayout_placeholder" data-tablelayout="0"></div> <div class="table sectionedit8"><table class="inline">' +
-            '<colgroup><col style=\"width: 80px;\"><col></colgroup> <thead> ' +
+            '<colgroup><col style="width: 80px;"><col></colgroup> <thead> ' +
             '<tr class="row0"> ' +
             '    <th class="col0 leftalign"> Column 1  </th><th class="col1 leftalign"> Column 2  </th> ' +
             '</tr> ' +
