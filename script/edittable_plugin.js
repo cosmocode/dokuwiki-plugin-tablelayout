@@ -54,7 +54,6 @@ window.tablelayout = window.tablelayout || {};
             originalAfterCreateCol.call(this, index, amount);
             layout.colwidth.splice(index, 0, null);
             $layoutfield.val(JSON.stringify(layout));
-            forcePreview = true;
         };
 
         handsontable_config.afterRender = function () {
