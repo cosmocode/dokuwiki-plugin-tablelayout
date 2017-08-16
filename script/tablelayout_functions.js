@@ -116,5 +116,23 @@ window.tablelayout = window.tablelayout || {};
         return layout;
     };
 
+    exports.sortTable = function ($tableRows, sortColumnIndex, order) {
+        var sortModifier = order === 'asc' ? 1 : -1;
+        var compare = function compare(rowA, rowB) {
+            var tda = jQuery(rowA).find('td,th').eq(sortColumnIndex).text().toLowerCase();
+            var tdb = jQuery(rowB).find('td,th').eq(sortColumnIndex).text().toLowerCase();
+            if (tda < tdb) {
+                return -1 * sortModifier;
+            }
+
+            if (tda > tdb) {
+                return sortModifier;
+            }
+
+            return 0;
+        };
+        return $tableRows.sort(compare);
+    };
+
     return exports;
 }(window.tablelayout));
