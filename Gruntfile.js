@@ -45,8 +45,8 @@ module.exports = function(grunt) {
 });
 grunt.loadNpmTasks('grunt-contrib-watch');
 grunt.loadNpmTasks('grunt-contrib-jshint');
-grunt.loadNpmTasks('grunt-contrib-qunit')
+grunt.loadNpmTasks('grunt-contrib-qunit');
 grunt.loadNpmTasks('grunt-eslint');
-grunt.registerTask('default', ['jshint', 'qunit', 'eslint']);
+grunt.registerTask('default', ['jshint', 'qunit']);
 };
 
