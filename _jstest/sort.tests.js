@@ -5,7 +5,7 @@ window.tablelayout = window.tablelayout || {};
 
     QUnit.module( 'Tests for tablelayout.sortTable' );
     QUnit.test('sort desc', function(assert) {
-        var $fixture = jQuery( '#qunit-fixture' );
+        var $fixture = jQuery( '#qunit-fixture' ).find('#smallTable');
         var $tableRows = $fixture.find( 'table tr' ).slice(1);
         var $actualSortedRows = tablelayout.sortTable($tableRows, 0, 'desc');
 
@@ -17,7 +17,7 @@ window.tablelayout = window.tablelayout || {};
 
 
     QUnit.test('sort asc', function(assert) {
-        var $fixture = jQuery( '#qunit-fixture' );
+        var $fixture = jQuery( '#qunit-fixture' ).find('#smallTable');
         var $tableRows = $fixture.find( 'table tr' ).slice(1);
         var $actualSortedRows = tablelayout.sortTable($tableRows, 1, 'asc');
 

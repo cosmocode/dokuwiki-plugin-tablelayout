@@ -5,15 +5,15 @@ window.tablelayout = window.tablelayout || {};
 
     QUnit.module( 'Tests for tablelayout.freezeTableRows' );
     QUnit.test('fix 1 row and have 2 visible', function(assert) {
-        var $fixture = jQuery( '#qunit-fixture' );
+        var $fixture = jQuery( '#qunit-fixture').find('#smallTable' );
         var $table = $fixture.find( 'table' );
-        var expected_html = '<div class="plugin_tablelayout_placeholder" data-tablelayout="0"></div> <div class="table sectionedit8"><div style="width: 203px;"><table class="inline"> ' +
+        var expected_html = '<div class="plugin_tablelayout_placeholder" data-tablelayout="0"></div> <div class="table sectionedit8"><div style="width: 203px;"><table class="inline tablelayout_head"> ' +
             '<thead> ' +
             '<tr class="row0"> ' +
             '    <th class="col0 leftalign"> Column 1  </th><th class="col1 leftalign"> Column 2  </th> ' +
             '</tr> ' +
             '</thead> </table></div>' +
-            '<div style="overflow-y: scroll; height: 42px; width: 203px;"><table class="inline"> ' +
+            '<div style="overflow-y: scroll; height: 42px; width: 203px;"><table class="inline tablelayout_body"> ' +
             '<thead> ' +
             '<tr class="row1"> ' +
             '    <th class="col0 leftalign"> 2         </th><th class="col1 leftalign"> T          </th> ' +

@@ -5,7 +5,7 @@ window.tablelayout = window.tablelayout || {};
 
     QUnit.module( 'Tests for tablelayout.styleColumnWidths' );
     QUnit.test('float style both rows', function(assert) {
-        var $fixture = jQuery( '#qunit-fixture' );
+        var $fixture = jQuery( '#qunit-fixture' ).find('#smallTable');
         var $table = $fixture.find( 'table' );
         var expected_html = '<div class="plugin_tablelayout_placeholder" data-tablelayout="0"></div> <div class="table sectionedit8"><table class="inline flexiblewidth">' +
             '<colgroup><col style="width: 80px;"><col style="width: 80px;"></colgroup> <thead> ' +
@@ -33,7 +33,7 @@ window.tablelayout = window.tablelayout || {};
     });
 
     QUnit.test('float style first row only', function(assert) {
-        var $fixture = jQuery( '#qunit-fixture' );
+        var $fixture = jQuery( '#qunit-fixture' ).find('#smallTable');
         var $table = $fixture.find( 'table' );
         var expected_html = '<div class="plugin_tablelayout_placeholder" data-tablelayout="0"></div> <div class="table sectionedit8"><table class="inline">' +
             '<colgroup><col style="width: 80px;"><col></colgroup> <thead> ' +
@@ -61,7 +61,7 @@ window.tablelayout = window.tablelayout || {};
     });
 
     QUnit.test('number of table columns', function(assert) {
-        var $table = jQuery( '#qunit-fixture' ).find( 'table' );
+        var $table = jQuery( '#qunit-fixture' ).find('#smallTable').find( 'table' );
         var actual_number = tablelayout.getNumberOfTableCols($table);
         var expected_number = 2;
         assert.equal(actual_number, expected_number, 'number of columns correctly counted');

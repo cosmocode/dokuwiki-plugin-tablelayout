@@ -11,6 +11,7 @@
 <body>
 <div id="qunit"></div>
 <div id="qunit-fixture">
+    <div id="smallTable">
     <div class="plugin_tablelayout_placeholder" data-tablelayout="0"></div>
     <div class="table sectionedit8"><table class="inline">
         <thead>
@@ -32,6 +33,25 @@
         </tr>
     </table></div>
     <div class="secedit editbutton_table editbutton_2" style="display: block; margin-top: -12px;"></div>
+    </div>
+
+    <div id="mergeFixture">
+        <div class="table sectionedit2"><table class="inline">
+            <tbody><tr class="row0">
+                <td class="col0 leftalign"> A1  </td><td class="col1 leftalign"> B1   </td><td class="col2 leftalign"> C1   </td><td class="col3 leftalign"> D1  </td>
+            </tr>
+            <tr class="row1">
+                <td class="col0 leftalign"> A2  </td><td class="col1 leftalign" colspan="2" rowspan="2"> M          </td><td class="col3 leftalign"> D2  </td>
+            </tr>
+            <tr class="row2">
+                <td class="col0 leftalign"> A3  </td><td class="col1 leftalign"> D3  </td>
+            </tr>
+            <tr class="row3">
+                <td class="col0 leftalign"> A4  </td><td class="col1 leftalign"> B4   </td><td class="col2 leftalign"> C4   </td><td class="col3 leftalign"> D4  </td>
+            </tr>
+            </tbody>
+        </table></div>
+    </div>
 </div>
 <script src="../node_modules/qunitjs/qunit/qunit.js"></script>
 <script>window.QUnit || document.write('<script src="https://code.jquery.com/qunit/qunit-2.4.0.js"><\/script>')</script>
@@ -40,5 +60,6 @@
 <script src="floatTable.tests.js"></script>
 <script src="colWidths.tests.js"></script>
 <script src="sort.tests.js"></script>
+<script src="splitMerges.tests.js"></script>
 </body>
 </html>

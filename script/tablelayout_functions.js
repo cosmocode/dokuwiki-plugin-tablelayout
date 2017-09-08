@@ -137,5 +137,37 @@ window.tablelayout = window.tablelayout || {};
         return $tableRows.sort(compare);
     };
 
+    /**
+     * split all rowspans and colspans in a continuous set of table rows and multiply the content for all rows
+     *
+     * @param {jQuery[]} $tableRows jQuery set of continuoues table rows
+     * @return {*}
+     */
+    exports.splitMerges = function splitMerges($tableRows) {
+        var $splitRows = $tableRows;
+        $splitRows.find('td[colspan],th[colspan]').each(function(index, cell){
+            var $cell = jQuery(cell);
+            var colspan = $cell.attr('colspan') - 1;
+            $cell.removeAttr('colspan');
+            for (var i = 0; i < colspan; i += 1) {
+                $cell.after($cell.clone(true, true));
+            }
+        });
+        $splitRows.find('td[rowspan],th[rowspan]').each(function(index, cell){
+            var $cell = jQuery(cell);
+            var rowspan = $cell.attr('rowspan') - 1;
+            $cell.removeAttr('rowspan');
+            var colIndex = 0;
+            $cell.prevAll('td,th').each(function () {
+                colIndex += this.colSpan;
+            });
+            for (var i = 0; i < rowspan; i += 1) {
+                var $rowMissingCell = $cell.closest('tr').nextAll().eq(i);
+                $rowMissingCell.find('td,th').eq(colIndex).before($cell.clone(true, true));
+            }
+        });
+        return $splitRows;
+    };
+
     return exports;
 }(window.tablelayout));
