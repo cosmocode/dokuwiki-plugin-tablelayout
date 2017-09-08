@@ -30,6 +30,9 @@ class helper_plugin_tablelayout extends DokuWiki_Plugin {
         if (!empty($layout->tableSort)) {
             $syntax[] = 'tableSort=1';
         }
+        if (!empty($layout->tableSearch)) {
+            $syntax[] = 'tableSearch=1';
+        }
 
         if (count($syntax) == 0) {
             return "";
