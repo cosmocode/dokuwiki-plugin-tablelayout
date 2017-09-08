@@ -163,7 +163,12 @@ window.tablelayout = window.tablelayout || {};
             });
             for (var i = 0; i < rowspan; i += 1) {
                 var $rowMissingCell = $cell.closest('tr').nextAll().eq(i);
-                $rowMissingCell.find('td,th').eq(colIndex).before($cell.clone(true, true));
+                var $rowCells = $rowMissingCell.find('td,th');
+                if ($rowCells.length === colIndex ) {
+                    $rowCells.last().after($cell.clone(true, true));
+                } else {
+                    $rowCells.eq(colIndex).before($cell.clone(true, true));
+                }
             }
         });
         return $splitRows;
