@@ -1,3 +1,5 @@
+/* eslint-env qunit */
+
 window.tablelayout = window.tablelayout || {};
 
 (function (tablelayout) {

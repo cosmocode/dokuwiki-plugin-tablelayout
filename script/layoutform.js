@@ -5,10 +5,10 @@ jQuery(function () {
     if (!jQuery('#edittable__editor').length) {
         return;
     }
-    jQuery('#dw__editform').before('<div id="layoutcontainer">' + LANG.plugins.tablelayout.loading + '</div>');
+    jQuery('#dw__editform').before('<div id="layoutcontainer">' + window.LANG.plugins.tablelayout.loading + '</div>');
     var $layoutcontainer = jQuery('#layoutcontainer');
     jQuery.get(
-        DOKU_BASE + 'lib/exe/ajax.php',
+        window.DOKU_BASE + 'lib/exe/ajax.php',
         {
             call: 'plugin_tablelayout_form'
         }

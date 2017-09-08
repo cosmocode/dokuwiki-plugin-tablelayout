@@ -140,8 +140,11 @@ window.tablelayout = window.tablelayout || {};
     /**
      * split all rowspans and colspans in a continuous set of table rows and multiply the content for all rows
      *
+     * Please note that this functions modifies the argument as well.
+     *
      * @param {jQuery[]} $tableRows jQuery set of continuoues table rows
-     * @return {*}
+     *
+     * @return {jQuery[]} the adjust array of rows
      */
     exports.splitMerges = function splitMerges($tableRows) {
         var $splitRows = $tableRows;
