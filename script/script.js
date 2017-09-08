@@ -26,14 +26,12 @@ jQuery(window).on('load', function(){
             var $tableSortRowCells = $tableSortRow.find('td,th');
             $tableSortRowCells.addClass('sortable unsorted');
             $tableSortRowCells.click(function () {
+                window.tablelayout.splitMerges($rowsToBeSorted);
                 var $this = jQuery(this);
                 var sortDirection = $this.hasClass('sorted_asc') ? 'desc' : 'asc';
                 $tableSortRowCells.removeClass('sorted_asc sorted_desc').addClass('unsorted');
                 $this.addClass('sorted_' + sortDirection).removeClass('unsorted');
-                var colIndex = 0;
-                jQuery(this).prevAll('td,th').each(function () {
-                    colIndex += this.colSpan;
-                });
+                var colIndex = jQuery(this).prevAll('td,th').length;
                 var sortedRows = window.tablelayout.sortTable($rowsToBeSorted.detach(), colIndex, sortDirection);
                 $table.append(sortedRows);
                 return false;
