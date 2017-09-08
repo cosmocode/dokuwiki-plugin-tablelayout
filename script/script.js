@@ -17,24 +17,35 @@ jQuery(window).on('load', function(){
             window.tablelayout.applyStylesToTable($table, layoutdata);
         }
 
-        if (layoutdata.tableSort) {
-            var $tableSortRow, $rowsToBeSorted;
+        if (layoutdata.tableSort || layoutdata.tableSearch) {
+            var searchSortRow = jQuery('<tr class="searchSortRow">' + '<th><div></div></th>'.repeat(columnCount) + '</tr>');
+            var $lastHeaderRow;
             if ($table.hasClass('tablelayout_body')) {
-                $tableSortRow = $table.closest('.table').find('table.tablelayout_head tr').last();
+                $lastHeaderRow = $table.closest('.table').find('table.tablelayout_head tr').last();
+            }else {
+                $lastHeaderRow = $table.find('tr').slice(layoutdata.rowsHeader - 1).first();
+            }
+            $lastHeaderRow.after(searchSortRow);
+        }
+
+        if (layoutdata.tableSort) {
+            var $rowsToBeSorted;
+            if ($table.hasClass('tablelayout_body')) {
                 $rowsToBeSorted = $table.find('tr');
             } else {
-                $tableSortRow = $table.find('tr').slice(layoutdata.rowsHeader - 1).first();
-                $rowsToBeSorted = $table.find('tr').slice(layoutdata.rowsHeader);
+                $rowsToBeSorted = $table.find('tr').slice(parseInt(layoutdata.rowsHeader)+1);
             }
-            var $tableSortRowCells = $tableSortRow.find('td,th');
-            $tableSortRowCells.addClass('sortable unsorted');
-            $tableSortRowCells.click(function () {
+            var $tableSortRowCells = searchSortRow.find('td > div,th > div');
+            $tableSortRowCells.append(jQuery('<button>'));
+            var $tableSortRowCellsButtons = $tableSortRowCells.find('button');
+            $tableSortRowCellsButtons.addClass('sortable unsorted');
+            $tableSortRowCellsButtons.click(function () {
                 window.tablelayout.splitMerges($rowsToBeSorted);
                 var $this = jQuery(this);
                 var sortDirection = $this.hasClass('sorted_asc') ? 'desc' : 'asc';
-                $tableSortRowCells.removeClass('sorted_asc sorted_desc').addClass('unsorted');
+                $tableSortRowCellsButtons.removeClass('sorted_asc sorted_desc').addClass('unsorted');
                 $this.addClass('sorted_' + sortDirection).removeClass('unsorted');
-                var colIndex = jQuery(this).prevAll('td,th').length;
+                var colIndex = $this.closest('td,th').prevAll('td,th').length;
                 var sortedRows = window.tablelayout.sortTable($rowsToBeSorted.detach(), colIndex, sortDirection);
                 $table.append(sortedRows);
                 return false;
@@ -42,16 +53,15 @@ jQuery(window).on('load', function(){
         }
 
         if (layoutdata.tableSearch) {
-            var $searchRow = jQuery('<tr class="searchRow">' + '<td><input></td>'.repeat(columnCount) + '</tr>');
-            var $rowsToBeSearched, $lastHeaderRow;
+            var $rowsToBeSearched;
             if ($table.hasClass('tablelayout_body')) {
-                $lastHeaderRow = $table.closest('.table').find('table.tablelayout_head tr').last();
                 $rowsToBeSearched = $table.find('tr');
             } else {
-                $lastHeaderRow = $table.find('tr').slice(layoutdata.rowsHeader - 1).first();
-                $rowsToBeSearched = $table.find('tr').slice(layoutdata.rowsHeader);
+                $rowsToBeSearched = $table.find('tr').slice(parseInt(layoutdata.rowsHeader)+1);
             }
-            var $searchInputs = $searchRow.find('input');
+
+            searchSortRow.find('td > div,th > div').prepend(jQuery('<input>'));
+            var $searchInputs = searchSortRow.find('input');
             $searchInputs.on('input', function () {
                 window.tablelayout.splitMerges($rowsToBeSearched);
                 $rowsToBeSearched.each(function (index, row) {
@@ -64,7 +74,6 @@ jQuery(window).on('load', function(){
                     jQuery(row).css('display', hideRow ? 'none' : 'table-row');
                 });
             });
-            $lastHeaderRow.after($searchRow);
         }
 
     });

@@ -70,29 +70,45 @@
             -ms-hyphens: auto;
             hyphens: auto;
 
-            &.sortable {
-                cursor: pointer;
-                background-repeat: no-repeat;
-                background-position-x: right;
-
-                &.unsorted {
-                    background-image: url('images/sort.svg');
-                }
-
-                &.sorted_asc {
-                    background-image: url('images/sort-ascending.svg');
-                }
-
-                &.sorted_desc {
-                    background-image: url('images/sort-descending.svg');
-                }
-            }
         }
 
-        .searchRow {
+        .searchSortRow {
+            td > div, th > div {
+                display: flex;
+                justify-content: flex-end;
 
-            input {
-                width: 100%;
+                input {
+                    width: 5px;
+                    flex-grow: 1;
+                    flex-shrink: 1;
+                }
+
+                button.sortable {
+                    flex-grow: 0;
+                    padding: 1em;
+                    margin-left: 0.5em;
+                    margin-right: 0.5em;
+                    background: transparent no-repeat;
+                    background-position-x: right;
+                    border: none;
+
+                    &:hover {
+                        background-color: transparent;
+                    }
+
+                    &.unsorted {
+                        background-image: url('images/sort.svg');
+                    }
+
+                    &.sorted_asc {
+                        background-image: url('images/sort-ascending.svg');
+                    }
+
+                    &.sorted_desc {
+                        background-image: url('images/sort-descending.svg');
+                    }
+                }
+
             }
         }
 
