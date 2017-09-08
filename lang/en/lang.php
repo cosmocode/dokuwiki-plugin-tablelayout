@@ -8,7 +8,7 @@
 $lang['legend:tablelayout'] = 'Adjust table layout';
 $lang['button:apply'] = 'Apply & Preview';
 $lang['label:rowsHeader'] = 'Number of rows in the table header';
-$lang['label:rowsVisible'] = 'Number of additional rows visible on the page';
+$lang['label:rowsVisible'] = 'Number of additional rows visible on the page (0 = all)';
 $lang['label:alignment'] = 'How to align the table:';
 $lang['label:tableSort'] = 'Make rows sortable';
 $lang['label:tableSearch'] = 'Make rows searchable';
