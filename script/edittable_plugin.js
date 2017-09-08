@@ -24,8 +24,8 @@ window.tablelayout = window.tablelayout || {};
             handsontable_config.manualColumnResize = colWidths;
         }
 
-        if (layout.rowsFixed && layout.rowsVisible) {
-            handsontable_config.fixedRowsTop = parseInt(layout.rowsFixed);
+        if (layout.rowsHeader && layout.rowsVisible) {
+            handsontable_config.fixedRowsTop = parseInt(layout.rowsHeader);
         }
 
         handsontable_config.afterColumnResize = function (col, width) {

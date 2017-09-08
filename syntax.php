@@ -60,17 +60,20 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
         foreach ($options as $option) {
             list($key, $value) = explode('=', $option);
             switch ($key) {
+                case 'rowsFixed': // for backwards compatibility
+                    $data['rowsHeader'] = $value;
+                    break;
                 case 'float':
                 case 'rowsVisible':
-                case 'rowsFixed':
+                case 'rowsHeader':
                     $data[$key] = $value;
                     break;
                 case 'colwidth':
                     $value = array_map('trim', explode(',', trim($value, '"\'')));
                     $data[$key] = $value;
                     break;
-                case 'tableSortRow':
-                    $data[$key] = max((int) $value, 0);
+                case 'tableSort':
+                    $data[$key] = !empty($value);
                     break;
                 default:
                     msg('Unknown option: ' . hsc($key), -1);

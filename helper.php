@@ -15,8 +15,8 @@ class helper_plugin_tablelayout extends DokuWiki_Plugin {
         $layout = json_decode($json);
         // todo check for decoding errors
         $syntax = array();
-        if (!empty($layout->rowsFixed)) {
-            $syntax[] = "rowsFixed=" . $layout->rowsFixed;
+        if (!empty($layout->rowsHeader)) {
+            $syntax[] = "rowsHeader=" . $layout->rowsHeader;
         }
         if (!empty($layout->rowsVisible)) {
             $syntax[] = "rowsVisible=" . $layout->rowsVisible;
@@ -27,10 +27,10 @@ class helper_plugin_tablelayout extends DokuWiki_Plugin {
         if (!empty($layout->float)) {
             $syntax[] = "float=" . $layout->float;
         }
-        if (empty($layout->tableSortRow)) {
-            $layout->tableSortRow = 0;
+        if (!empty($layout->tableSort)) {
+            $syntax[] = 'tableSort=1';
         }
-        $syntax[] = 'tableSortRow=' . max((int) $layout->tableSortRow,0);
+
         if (count($syntax) == 0) {
             return "";
         }

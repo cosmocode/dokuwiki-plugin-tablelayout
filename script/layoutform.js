@@ -20,29 +20,32 @@ jQuery(function () {
         });
         var $layoutfield = jQuery('#dw__editform').find('input[name=tablelayout]');
         var layout = window.tablelayout.initLayout($layoutfield.val());
-        if (layout.rowsFixed && layout.rowsVisible) {
-            $layoutcontainer.find('input[name="rowsFixed"]').val(layout.rowsFixed);
+        $layoutcontainer.find('input[name="rowsHeader"]').val(layout.rowsHeader || 0);
+        if (layout.rowsHeader && layout.rowsVisible) {
             $layoutcontainer.find('input[name="rowsVisible"]').val(layout.rowsVisible);
         }
         if (layout.float) {
             $layoutcontainer.find('select[name="float"]').val(layout.float);
         }
-        if (typeof layout.tableSortRow !== 'undefined') {
-            $layoutcontainer.find('input[name="tableSortRow"]').val(layout.tableSortRow);
+        if (typeof layout.tableSort !== 'undefined' && layout.tableSort === true) {
+            $layoutcontainer.find('input[name="tableSort"]').attr('checked', true);
         }
         $layoutcontainer.find('form').submit(function (event) {
             event.preventDefault();
             var layout = window.tablelayout.initLayout($layoutfield.val());
 
             // validation
-            var rowsFixed = parseInt($layoutcontainer.find('input[name="rowsFixed"]').val());
+            var rowsHeader = parseInt($layoutcontainer.find('input[name="rowsHeader"]').val());
             var rowsVisible = parseInt($layoutcontainer.find('input[name="rowsVisible"]').val());
             var float = $layoutcontainer.find('select[name="float"]').val();
-            if (!(rowsFixed && rowsFixed > 0 && rowsVisible && rowsVisible > 0)) {
-                delete layout.rowsFixed;
+            if (!rowsHeader || rowsHeader < 1) {
+                layout.rowsHeader = 1;
+            } else {
+                layout.rowsHeader = rowsHeader;
+            }
+            if (!(rowsVisible && rowsVisible > 0)) {
                 delete layout.rowsVisible;
             } else {
-                layout.rowsFixed = rowsFixed;
                 layout.rowsVisible = rowsVisible;
             }
             if (float && (float === 'left' || float === 'right' || float === 'center')) {
@@ -50,8 +53,8 @@ jQuery(function () {
             } else {
                 delete layout.float;
             }
-            var tableSortRow = parseInt($layoutcontainer.find('input[name="tableSortRow"]').val());
-            layout.tableSortRow = tableSortRow;
+            var tableSort = $layoutcontainer.find('input[name="tableSort"]').is(':checked');
+            layout.tableSort = tableSort;
 
             $layoutfield.val(JSON.stringify(layout));
             jQuery('#dw__editform').find('button[name="do[preview]"]').click();

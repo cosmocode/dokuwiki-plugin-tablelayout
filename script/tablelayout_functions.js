@@ -34,8 +34,8 @@ window.tablelayout = window.tablelayout || {};
         }
         exports.styleColumnWidths($table, layoutdata.colwidth);
         exports.fixColumnWidths($table);
-        if (layoutdata.rowsFixed > 0 && layoutdata.rowsVisible > 0) {
-            exports.freezeTableRows($table, layoutdata.rowsFixed, layoutdata.rowsVisible);
+        if (layoutdata.rowsHeader > 0 && layoutdata.rowsVisible > 0) {
+            exports.freezeTableRows($table, layoutdata.rowsHeader, layoutdata.rowsVisible);
         }
         if (layoutdata.float === 'right' || layoutdata.float === 'left' || layoutdata.float === 'center') {
             exports.floatTable($table, layoutdata.float);
@@ -80,6 +80,8 @@ window.tablelayout = window.tablelayout || {};
         }
         var tableWidth = $table.width();
         var $frozenTable = $table.clone();
+        $table.addClass('tablelayout_body');
+        $frozenTable.addClass('tablelayout_head');
         var $frozenRows = $frozenTable.find('tr');
         for (var i = $table.find('tr').length - 1; i >= rowsToFreeze; i -= 1) {
             jQuery($frozenRows[i]).remove();
@@ -110,7 +112,8 @@ window.tablelayout = window.tablelayout || {};
         if (json) {
             layout = JSON.parse(json);
         }
-        if (typeof layout.colwidth == 'undefined') {
+
+        if (typeof layout.colwidth === 'undefined') {
             layout.colwidth = [];
         }
         return layout;

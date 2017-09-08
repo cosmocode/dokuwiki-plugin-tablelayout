@@ -7,10 +7,10 @@
 
 $lang['legend:tablelayout'] = 'Adjust table layout';
 $lang['button:apply'] = 'Apply & Preview';
-$lang['label:rowsFixed'] = 'Number of rows fixed to the top';
+$lang['label:rowsHeader'] = 'Number of rows in the table header';
 $lang['label:rowsVisible'] = 'Number of additional rows visible on the page';
 $lang['label:alignment'] = 'How to align the table:';
-$lang['label:tableSortRow'] = 'Make rows below this row sortable by this row. 0 deactivates';
+$lang['label:tableSort'] = 'Make rows sortable';
 $lang['option:default'] = 'Default';
 $lang['option:float left'] = 'Floating to the left';
 $lang['option:float right'] = 'Floating to the right';

@@ -39,7 +39,7 @@ class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin {
         $form = new \dokuwiki\Form\Form();
         $form->addFieldsetOpen($this->getLang('legend:tablelayout'))->addClass('borderless');
         $form->addTagOpen('div')->attr('style', 'display: none;');
-        $form->addTextInput('rowsFixed', $this->getLang('label:rowsFixed'))->attrs(array('type' => 'number', 'min' => '0'))->val(0);
+        $form->addTextInput('rowsHeader', $this->getLang('label:rowsHeader'))->attrs(array('type' => 'number', 'min' => '1'))->val(1);
         $form->addTextInput('rowsVisible', $this->getLang('label:rowsVisible'))->attrs(array('type' => 'number', 'min' => '0'))->val(0);
         $options = array(
             'default' => $this->getLang('option:default'),
@@ -48,7 +48,7 @@ class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin {
             'center' => $this->getLang('option:center'),
         );
         $form->addDropdown('float', $options, $this->getLang('label:alignment'))->val('default');
-        $form->addTextInput('tableSortRow', $this->getLang('label:tableSortRow'))->attrs(array('type' => 'number', 'min' => '0'))->val(1);
+        $form->addCheckbox('tableSort', $this->getLang('label:tableSort'));
         $form->addButton('', $this->getLang('button:apply'))->attr('type', 'submit');
         $form->addTagClose('div');
         $form->addFieldsetClose();

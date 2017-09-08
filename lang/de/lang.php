@@ -7,7 +7,7 @@
 
 $lang['legend:tablelayout'] = 'Tabellenlayout anpassen';
 $lang['button:apply'] = 'Anwenden & Vorschau';
-$lang['label:rowsFixed'] = 'Anzahl der fixierten Kopfzeilen';
+$lang['label:rowsHeader'] = 'Anzahl der Kopfzeilen';
 $lang['label:rowsVisible'] = 'Anzahl der weiteren sichtbaren Zeilen';
 $lang['label:alignment'] = 'Ausrichtung der Tabelle:';
 $lang['option:default'] = 'Standard';
