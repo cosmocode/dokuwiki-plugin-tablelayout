@@ -74,6 +74,7 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin {
                     break;
                 case 'tableSort':
                 case 'tableSearch':
+                case 'tablePrint':
                     $data[$key] = !empty($value);
                     break;
                 default:

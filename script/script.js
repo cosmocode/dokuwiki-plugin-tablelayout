@@ -3,6 +3,11 @@ window.tablelayout = window.tablelayout || {};
 jQuery(window).on('load', function(){
     'use strict';
 
+    if (jQuery('#tablelayout_printthis').length) {
+        window.print();
+        return;
+    }
+
     jQuery('.plugin_tablelayout_placeholder').each(function (index, element) {
         var $table = jQuery(element).next().find('table');
         var layoutdata = jQuery(element).data('tablelayout');
@@ -15,6 +20,19 @@ jQuery(window).on('load', function(){
         $secedit_form.prepend($input);
         if (layoutdata) {
             window.tablelayout.applyStylesToTable($table, layoutdata);
+        }
+
+        if (layoutdata.tablePrint) {
+            var range = $secedit_form.find('input[name="range"]').val();
+            var target = $secedit_form.closest('form').attr('action');
+            var params = [
+                'do=tablelayout_printtable',
+                'range=' + encodeURIComponent(range),
+                'id=' + encodeURIComponent(window.JSINFO.id)
+            ];
+            var href = target + '?' + params.join('&');
+            var $link = jQuery('<a>' + window.LANG.plugins.tablelayout.print + '</a>').attr({'href': href, 'target': '_blank'}).addClass('button print');
+            $secedit_form.closest('div.secedit').append($link);
         }
 
         if (layoutdata.tableSort || layoutdata.tableSearch) {

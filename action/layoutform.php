@@ -50,6 +50,7 @@ class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin {
         $form->addDropdown('float', $options, $this->getLang('label:alignment'))->val('default');
         $form->addCheckbox('tableSort', $this->getLang('label:tableSort'));
         $form->addCheckbox('tableSearch', $this->getLang('label:tableSearch'));
+        $form->addCheckbox('tablePrint', $this->getLang('label:tablePrint'));
         $form->addButton('', $this->getLang('button:apply'))->attr('type', 'submit');
         $form->addTagClose('div');
         $form->addFieldsetClose();

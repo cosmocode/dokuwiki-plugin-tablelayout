@@ -33,6 +33,9 @@ jQuery(function () {
         if (typeof layout.tableSort !== 'undefined' && layout.tableSearch === true) {
             $layoutcontainer.find('input[name="tableSearch"]').attr('checked', true);
         }
+        if (typeof layout.tablePrint !== 'undefined' && layout.tablePrint === true) {
+            $layoutcontainer.find('input[name="tablePrint"]').attr('checked', true);
+        }
         $layoutcontainer.find('form').submit(function (event) {
             event.preventDefault();
             var layout = window.tablelayout.initLayout($layoutfield.val());
@@ -60,6 +63,8 @@ jQuery(function () {
             layout.tableSort = tableSort;
             var tableSearch = $layoutcontainer.find('input[name="tableSearch"]').is(':checked');
             layout.tableSearch = tableSearch;
+            var tablePrint = $layoutcontainer.find('input[name="tablePrint"]').is(':checked');
+            layout.tablePrint = tablePrint;
 
             $layoutfield.val(JSON.stringify(layout));
             jQuery('#dw__editform').find('button[name="do[preview]"]').click();
