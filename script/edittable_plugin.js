@@ -38,20 +38,26 @@ window.tablelayout = window.tablelayout || {};
         var forcePreview = false;
         var originalBeforeRemoveCol = handsontable_config.beforeRemoveCol;
         handsontable_config.beforeRemoveCol = function (index, amount) {
-            originalBeforeRemoveCol.call(this, index, amount);
+            if (originalBeforeRemoveCol) {
+                originalBeforeRemoveCol.call(this, index, amount);
+            }
             layout.colwidth.splice(index, amount);
             $layoutfield.val(JSON.stringify(layout));
         };
 
         var originalAfterRemoveCol = handsontable_config.afterRemoveCol;
         handsontable_config.afterRemoveCol = function (index, amount) {
-            originalAfterRemoveCol.call(this, index, amount);
+            if (originalAfterRemoveCol) {
+                originalAfterRemoveCol.call(this, index, amount);
+            }
             forcePreview = true;
         };
 
         var originalAfterCreateCol = handsontable_config.afterCreateCol;
         handsontable_config.afterCreateCol = function (index, amount) {
-            originalAfterCreateCol.call(this, index, amount);
+            if (originalAfterCreateCol) {
+                originalAfterCreateCol.call(this, index, amount);
+            }
             layout.colwidth.splice(index, 0, null);
             $layoutfield.val(JSON.stringify(layout));
         };
