@@ -5,7 +5,7 @@
  * This should maybe be moved to the jspolyfill-plugin
  */
 if (!String.prototype.repeat) {
-    String.prototype.repeat = function(count) {
+    String.prototype.repeat = function (count) {
         'use strict';
         if (this == null) {
             throw new TypeError('can\'t convert ' + this + ' to object');

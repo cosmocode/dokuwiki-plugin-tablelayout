@@ -6,7 +6,7 @@ window.tablelayout = window.tablelayout || {};
     exports.getNumberOfTableCols = function ($table) {
         var $rows = $table.find('tr');
         var max = 0;
-        $rows.each(function(index, row) {
+        $rows.each(function (index, row) {
             if (max < row.cells.length) {
                 max = row.cells.length;
                 atomicrowIndex = index;
@@ -44,7 +44,7 @@ window.tablelayout = window.tablelayout || {};
 
     exports.fixColumnWidths = function ($table) {
         var $cols = $table.find('colgroup col');
-        var $atomicrow = $table.find('.row'+atomicrowIndex);
+        var $atomicrow = $table.find('.row' + atomicrowIndex);
         $cols.each(function (index, col) {
             var width = $atomicrow['0'].cells.item(index).offsetWidth;
             if (!col.style.width) {
@@ -98,12 +98,12 @@ window.tablelayout = window.tablelayout || {};
         }
         $table.parent().prepend($frozenTable);
         var SCROLLBAR_WIDTH = 17;
-        $frozenTable.wrap(jQuery('<div></div>').width(tableWidth+SCROLLBAR_WIDTH));
+        $frozenTable.wrap(jQuery('<div></div>').width(tableWidth + SCROLLBAR_WIDTH));
         var height = 0;
         for (i = rowsToFreeze; i < rowsToFreeze + rowsVisible; i += 1) {
             height += jQuery($tableRows[i]).height();
         }
-        var tableWrapper = jQuery('<div></div>').css({'overflow-y': 'scroll'}).height(height).width(tableWidth+SCROLLBAR_WIDTH);
+        var tableWrapper = jQuery('<div></div>').css({'overflow-y': 'scroll'}).height(height).width(tableWidth + SCROLLBAR_WIDTH);
         $table.wrap(tableWrapper);
     };
 
@@ -148,7 +148,7 @@ window.tablelayout = window.tablelayout || {};
      */
     exports.splitMerges = function splitMerges($tableRows) {
         var $splitRows = $tableRows;
-        $splitRows.find('td[colspan],th[colspan]').each(function(index, cell){
+        $splitRows.find('td[colspan],th[colspan]').each(function (index, cell) {
             var $cell = jQuery(cell);
             var colspan = $cell.attr('colspan') - 1;
             $cell.removeAttr('colspan');
@@ -156,7 +156,7 @@ window.tablelayout = window.tablelayout || {};
                 $cell.after($cell.clone(true, true));
             }
         });
-        $splitRows.find('td[rowspan],th[rowspan]').each(function(index, cell){
+        $splitRows.find('td[rowspan],th[rowspan]').each(function (index, cell) {
             var $cell = jQuery(cell);
             var rowspan = $cell.attr('rowspan') - 1;
             $cell.removeAttr('rowspan');
@@ -167,7 +167,7 @@ window.tablelayout = window.tablelayout || {};
             for (var i = 0; i < rowspan; i += 1) {
                 var $rowMissingCell = $cell.closest('tr').nextAll().eq(i);
                 var $rowCells = $rowMissingCell.find('td,th');
-                if ($rowCells.length === colIndex ) {
+                if ($rowCells.length === colIndex) {
                     $rowCells.last().after($cell.clone(true, true));
                 } else {
                     $rowCells.eq(colIndex).before($cell.clone(true, true));

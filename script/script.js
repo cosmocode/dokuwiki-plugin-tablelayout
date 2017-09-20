@@ -1,6 +1,6 @@
 window.tablelayout = window.tablelayout || {};
 
-jQuery(window).on('load', function(){
+jQuery(window).on('load', function () {
     'use strict';
 
     if (jQuery('#tablelayout_printthis').length) {
@@ -11,9 +11,9 @@ jQuery(window).on('load', function(){
     jQuery('.plugin_tablelayout_placeholder').each(function (index, element) {
         var $table = jQuery(element).next().find('table');
         var layoutdata = jQuery(element).data('tablelayout');
-        var columnCount = $table.find('tr').toArray().reduce(function (max, row){
+        var columnCount = $table.find('tr').toArray().reduce(function (max, row) {
             return Math.max(max, jQuery(row).find('td,th').length);
-        } , 0);
+        }, 0);
 
         var $secedit_form = jQuery(element).next().next('.secedit').find('form div.no');
         var $input = jQuery('<input name="tablelayout" type="hidden">').val(JSON.stringify(layoutdata));
@@ -31,7 +31,10 @@ jQuery(window).on('load', function(){
                 'id=' + encodeURIComponent(window.JSINFO.id)
             ];
             var href = target + '?' + params.join('&');
-            var $link = jQuery('<a>' + window.LANG.plugins.tablelayout.print + '</a>').attr({'href': href, 'target': '_blank'}).addClass('button print');
+            var $link = jQuery('<a>' + window.LANG.plugins.tablelayout.print + '</a>').attr({
+                'href': href,
+                'target': '_blank'
+            }).addClass('button print');
             $secedit_form.closest('div.secedit').append($link);
         }
 
@@ -40,7 +43,7 @@ jQuery(window).on('load', function(){
             var $lastHeaderRow;
             if ($table.hasClass('tablelayout_body')) {
                 $lastHeaderRow = $table.closest('.table').find('table.tablelayout_head tr').last();
-            }else {
+            } else {
                 $lastHeaderRow = $table.find('tr').slice(layoutdata.rowsHeader - 1).first();
             }
             $lastHeaderRow.after(searchSortRow);
@@ -51,7 +54,7 @@ jQuery(window).on('load', function(){
             if ($table.hasClass('tablelayout_body')) {
                 $rowsToBeSorted = $table.find('tr');
             } else {
-                $rowsToBeSorted = $table.find('tr').slice(parseInt(layoutdata.rowsHeader)+1);
+                $rowsToBeSorted = $table.find('tr').slice(parseInt(layoutdata.rowsHeader) + 1);
             }
             var $tableSortRowCells = searchSortRow.find('td > div,th > div');
             $tableSortRowCells.append(jQuery('<button>'));
@@ -89,7 +92,12 @@ jQuery(window).on('load', function(){
             if ($table.width() > $container.width()) {
                 $globalSearch.position({my: 'right bottom-3px', at: 'right top', of: $container, collision: 'none'});
             } else {
-                $globalSearch.position({ my: 'right bottom-3px', at: 'right top', of: $tableIncludingHeaders, collision: 'none' });
+                $globalSearch.position({
+                    my: 'right bottom-3px',
+                    at: 'right top',
+                    of: $tableIncludingHeaders,
+                    collision: 'none'
+                });
             }
             var $searchInputs = searchSortRow.find('input').add($globalSearch.find('input'));
             $searchInputs.on('input', function () {
