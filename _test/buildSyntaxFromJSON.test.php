@@ -7,7 +7,8 @@
  * @group plugins
  *
  */
-class buildSyntaxFromJSON_plugin_tablelayout_test extends DokuWikiTest {
+class buildSyntaxFromJSON_plugin_tablelayout_test extends DokuWikiTest
+{
 
     protected $pluginsEnabled = array('tablelayout');
 
@@ -17,7 +18,8 @@ class buildSyntaxFromJSON_plugin_tablelayout_test extends DokuWikiTest {
      *
      * @return array Array of testcases
      */
-    public static function buildSyntaxFromJSON_testdata() {
+    public static function dataBuildSyntaxFromJSON()
+    {
         return array(
             array(
                 '{"colwidth":["2px","3px"]}',
@@ -53,14 +55,15 @@ class buildSyntaxFromJSON_plugin_tablelayout_test extends DokuWikiTest {
     }
 
     /**
-     * @dataProvider buildSyntaxFromJSON_testdata
+     * @dataProvider dataBuildSyntaxFromJSON
      *
      * @param string $json
      * @param array $expected_syntax
      * @param string $msg
      */
-    public function test_buildSyntaxFromJSON($json, $expected_syntax, $msg) {
-        /** @var helper_plugin_tablelayout $helper*/
+    public function testBuildSyntaxFromJSON($json, $expected_syntax, $msg)
+    {
+        /** @var helper_plugin_tablelayout $helper */
         $helper = plugin_load('helper', 'tablelayout');
 
         $actual_syntax = $helper->buildSyntaxFromJSON($json);

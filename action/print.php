@@ -7,21 +7,26 @@
  */
 
 // must be run within Dokuwiki
-if(!defined('DOKU_INC')) die();
+if (!defined('DOKU_INC')) {
+    die();
+}
 
 /**
  * Class action_plugin_tablelayout_print
  *
  * Handles the adjusted tablelayout strings from edittable
  */
-class action_plugin_tablelayout_print extends DokuWiki_Action_Plugin {
-    public function register(Doku_Event_Handler $controller) {
-        $controller->register_hook('ACTION_ACT_PREPROCESS', 'BEFORE', $this, 'allow_tablelayout_print');
-        $controller->register_hook('TPL_ACT_UNKNOWN', 'BEFORE',  $this, 'print_table');
+class action_plugin_tablelayout_print extends DokuWiki_Action_Plugin
+{
+    public function register(Doku_Event_Handler $controller)
+    {
+        $controller->register_hook('ACTION_ACT_PREPROCESS', 'BEFORE', $this, 'allowTablelayoutPrint');
+        $controller->register_hook('TPL_ACT_UNKNOWN', 'BEFORE', $this, 'printTable');
     }
 
-    public function allow_tablelayout_print(Doku_Event $event, $param) {
-        if ($event->data != 'tablelayout_printtable') {
+    public function allowTablelayoutPrint(Doku_Event $event, $param)
+    {
+        if ($event->data !== 'tablelayout_printtable') {
             return;
         }
         global $ID;
@@ -33,13 +38,15 @@ class action_plugin_tablelayout_print extends DokuWiki_Action_Plugin {
         $event->preventDefault();
     }
 
-    public function print_table(Doku_Event $event, $param) {
-        if($event->data != 'tablelayout_printtable') return;
+    public function printTable(Doku_Event $event, $param)
+    {
+        if ($event->data !== 'tablelayout_printtable') {
+            return;
+        }
         $event->preventDefault();
         global $INPUT, $ID;
-        list($prefix, $table, $suffix) = rawWikiSlices($INPUT->str('range'), $ID);
+        list(, $table, ) = rawWikiSlices($INPUT->str('range'), $ID);
         echo '<span id="tablelayout_printthis"></span>';
         echo p_render('xhtml', p_get_instructions($table), $info);
     }
-
 }
