@@ -72,24 +72,40 @@ jQuery(window).on('load', function(){
 
         if (layoutdata.tableSearch) {
             var $rowsToBeSearched;
+            var $tableIncludingHeaders;
+            var $container = searchSortRow.closest('.table');
+            $container.addClass('hasSearch');
             if ($table.hasClass('tablelayout_body')) {
                 $rowsToBeSearched = $table.find('tr');
+                $tableIncludingHeaders = $container.find('.tablelayout_head');
             } else {
-                $rowsToBeSearched = $table.find('tr').slice(parseInt(layoutdata.rowsHeader)+1);
+                $rowsToBeSearched = $table.find('tr').slice(parseInt(layoutdata.rowsHeader) + 1);
+                $tableIncludingHeaders = $table;
             }
 
             searchSortRow.find('td > div,th > div').prepend(jQuery('<input>'));
-            var $searchInputs = searchSortRow.find('input');
+            var $globalSearch = jQuery('<div class="globalSearch"><label><span>' + window.LANG.plugins.tablelayout.search + '</span><input name="globalSearch" type="text"></label></div>');
+            $container.prepend($globalSearch);
+            if ($table.width() > $container.width()) {
+                $globalSearch.position({my: 'right bottom-3px', at: 'right top', of: $container, collision: 'none'});
+            } else {
+                $globalSearch.position({ my: 'right bottom-3px', at: 'right top', of: $tableIncludingHeaders, collision: 'none' });
+            }
+            var $searchInputs = searchSortRow.find('input').add($globalSearch.find('input'));
             $searchInputs.on('input', function () {
                 window.tablelayout.splitMerges($rowsToBeSearched);
+                var globalSearchText = $globalSearch.find('input').val().trim().toLowerCase();
                 $rowsToBeSearched.each(function (index, row) {
+                    var globalRowShow = false;
                     var hideRow = jQuery(row).find('td,th').toArray().some(function (cell, index) {
                         var $this = jQuery(cell);
                         var cellText = $this.text().trim().toLowerCase();
-                        var searchText = $searchInputs.eq(index).val().trim().toLowerCase();
+                        globalRowShow = globalRowShow || (cellText.indexOf(globalSearchText) !== -1);
+                        var colFilterIndex = index + 1;
+                        var searchText = $searchInputs.eq(colFilterIndex).val().trim().toLowerCase();
                         return cellText.indexOf(searchText) === -1;
                     });
-                    jQuery(row).css('display', hideRow ? 'none' : 'table-row');
+                    jQuery(row).css('display', (globalRowShow && !hideRow) ? 'table-row' : 'none');
                 });
             });
         }

@@ -60,6 +60,22 @@
     }
 
     div.table {
+        &.hasSearch {
+            margin-top: 3rem;
+        }
+        > div.globalSearch {
+            position: absolute;
+
+            label {
+                font-weight: bold;
+                vertical-align: middle;
+            }
+
+            input {
+                margin-left: 0.5rem;
+            }
+        }
+
         > div {
             overflow-x: hidden;
         }

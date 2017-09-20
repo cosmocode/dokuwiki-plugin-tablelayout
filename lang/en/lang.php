@@ -19,5 +19,6 @@ $lang['option:float right'] = 'Floating to the right';
 $lang['option:center'] = 'Centered';
 $lang['js']['loading'] = 'Loading';
 $lang['js']['print'] = 'Print';
+$lang['js']['search'] = 'Search';
 
 //Setup VIM: ex: et ts=4 :
