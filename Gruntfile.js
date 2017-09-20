@@ -10,7 +10,7 @@ module.exports = function(grunt) {
     },
     watch: {
         qunit: {
-            files: ['<%= jshint.all %>', '_jstest/*.html'],
+            files: ['<%= eslint.all %>', '_jstest/*.html'],
             tasks: ['qunit']
         },
         linting: {
