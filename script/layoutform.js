@@ -30,7 +30,7 @@ jQuery(function () {
         if (typeof layout.tableSort !== 'undefined' && layout.tableSort === true) {
             $layoutcontainer.find('input[name="tableSort"]').attr('checked', true);
         }
-        if (typeof layout.tableSort !== 'undefined' && layout.tableSearch === true) {
+        if (typeof layout.tableSearch !== 'undefined' && layout.tableSearch === true) {
             $layoutcontainer.find('input[name="tableSearch"]').attr('checked', true);
         }
         if (typeof layout.tablePrint !== 'undefined' && layout.tablePrint === true) {
