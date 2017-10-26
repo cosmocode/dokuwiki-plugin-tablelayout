@@ -34,15 +34,18 @@ jQuery(window).on('load', function () {
      * @return {JQuery} the searchSortRow object, that has been added to the table
      */
     function addSearchSortRow($table, numHeaderRows, columnCount) {
-        var searchSortRow = jQuery('<tr class="searchSortRow">' + '<th><div></div></th>'.repeat(columnCount) + '</tr>');
+        var $searchSortRow = jQuery('<tr class="searchSortRow">' + '<th><div></div></th>'.repeat(columnCount) + '</tr>');
         var $lastHeaderRow;
         if ($table.hasClass('tablelayout_body')) {
             $lastHeaderRow = $table.closest('.table').find('table.tablelayout_head tr').last();
+            $lastHeaderRow.after($searchSortRow);
+        } else if(numHeaderRows === 0) {
+            $table.find('tr').first().before($searchSortRow);
         } else {
             $lastHeaderRow = $table.find('tr').slice(numHeaderRows - 1).first();
+            $lastHeaderRow.after($searchSortRow);
         }
-        $lastHeaderRow.after(searchSortRow);
-        return searchSortRow;
+        return $searchSortRow;
     }
 
     /**
@@ -168,14 +171,15 @@ jQuery(window).on('load', function () {
         var $table = jQuery(element).find('table');
         var layoutdata = jQuery(element).prev().data('tablelayout');
         if (typeof layoutdata === 'undefined') {
-            var numHeaderRows = $table.find('thead tr').length;
             layoutdata = {
-                rowsHeader: numHeaderRows,
+                rowsHeaderSource: 'Auto',
                 tableSearch: true,
                 tableSort: true,
                 tablePrint: true
             };
         }
+        var numHeaderRowsAuto = $table.find('thead tr').length;
+        layoutdata.rowsHeader = layoutdata.rowsHeaderSource === 'Auto' ? numHeaderRowsAuto : layoutdata.rowsHeaderSource;
 
         var $secedit_form = jQuery(element).next('.secedit').find('form div.no');
         var $input = jQuery('<input name="tablelayout" type="hidden">').val(JSON.stringify(layoutdata));

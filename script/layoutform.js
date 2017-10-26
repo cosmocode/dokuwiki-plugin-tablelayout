@@ -17,13 +17,14 @@ jQuery(function () {
         var layout = window.tablelayout.initLayout($layoutfield.val());
 
         // validation
-        var rowsHeader = parseInt($layoutcontainer.find('input[name="rowsHeader"]').val());
+        var rowsHeaderSource = $layoutcontainer.find('select[name="rowsHeaderSource"] :selected').val();
         var rowsVisible = parseInt($layoutcontainer.find('input[name="rowsVisible"]').val());
         var float = $layoutcontainer.find('select[name="float"]').val();
-        if (!rowsHeader || rowsHeader < 1) {
-            layout.rowsHeader = 1;
+        var MAX_HEADER_ROWS = 10;
+        if (0 <= parseInt(rowsHeaderSource) && parseInt(rowsHeaderSource) <= MAX_HEADER_ROWS) {
+            layout.rowsHeaderSource = rowsHeaderSource;
         } else {
-            layout.rowsHeader = rowsHeader;
+            layout.rowsHeaderSource = 'Auto';
         }
         if (!(rowsVisible && rowsVisible > 0)) {
             delete layout.rowsVisible;
@@ -61,8 +62,8 @@ jQuery(function () {
         });
         var $layoutfield = jQuery('#dw__editform').find('input[name=tablelayout]');
         var layout = window.tablelayout.initLayout($layoutfield.val());
-        $layoutcontainer.find('input[name="rowsHeader"]').val(layout.rowsHeader || 0);
-        if (layout.rowsHeader && layout.rowsVisible) {
+        $layoutcontainer.find('select[name="rowsHeaderSource"]').val(layout.rowsHeaderSource);
+        if (layout.rowsHeaderSource && layout.rowsVisible) {
             $layoutcontainer.find('input[name="rowsVisible"]').val(layout.rowsVisible);
         }
         if (layout.float) {

@@ -20,8 +20,8 @@ class helper_plugin_tablelayout extends DokuWiki_Plugin
         $layout = json_decode($json);
         // todo check for decoding errors
         $syntax = array();
-        if (!empty($layout->rowsHeader)) {
-            $syntax[] = 'rowsHeader=' . $layout->rowsHeader;
+        if (!empty($layout->rowsHeaderSource)) {
+            $syntax[] = 'rowsHeaderSource=' . $layout->rowsHeaderSource;
         }
         if (!empty($layout->rowsVisible)) {
             $syntax[] = 'rowsVisible=' . $layout->rowsVisible;

@@ -76,11 +76,11 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin
             list($key, $value) = explode('=', $option);
             switch ($key) {
                 case 'rowsFixed': // for backwards compatibility
-                    $data['rowsHeader'] = $value;
+                    $data['rowsHeaderSource'] = $value;
                     break;
                 case 'float':
                 case 'rowsVisible':
-                case 'rowsHeader':
+                case 'rowsHeaderSource':
                     $data[$key] = $value;
                     break;
                 case 'colwidth':
