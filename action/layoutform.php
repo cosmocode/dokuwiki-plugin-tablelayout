@@ -7,9 +7,12 @@
  */
 
 // must be run within Dokuwiki
-if(!defined('DOKU_INC')) die();
+if (!defined('DOKU_INC')) {
+    die();
+}
 
-class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin {
+class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin
+{
 
     /**
      * Registers a callback function for a given event
@@ -17,8 +20,9 @@ class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin {
      * @param Doku_Event_Handler $controller DokuWiki's event controller object
      * @return void
      */
-    public function register(Doku_Event_Handler $controller) {
-        $controller->register_hook('AJAX_CALL_UNKNOWN', 'BEFORE', $this, 'handle_ajax_call');
+    public function register(Doku_Event_Handler $controller)
+    {
+        $controller->register_hook('AJAX_CALL_UNKNOWN', 'BEFORE', $this, 'handleAjaxCall');
     }
 
     /**
@@ -29,8 +33,11 @@ class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin {
      *                           handler was registered]
      * @return void
      */
-    public function handle_ajax_call(Doku_Event $event, $param) {
-        if($event->data != 'plugin_tablelayout_form') return;
+    public function handleAjaxCall(Doku_Event $event, $param)
+    {
+        if ($event->data !== 'plugin_tablelayout_form') {
+            return;
+        }
         $event->preventDefault();
         $event->stopPropagation();
 
@@ -39,8 +46,12 @@ class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin {
         $form = new \dokuwiki\Form\Form();
         $form->addFieldsetOpen($this->getLang('legend:tablelayout'))->addClass('borderless');
         $form->addTagOpen('div')->attr('style', 'display: none;');
-        $form->addTextInput('rowsFixed', $this->getLang('label:rowsFixed'))->attrs(array('type' => 'number', 'min' => '0'))->val(0);
-        $form->addTextInput('rowsVisible', $this->getLang('label:rowsVisible'))->attrs(array('type' => 'number', 'min' => '0'))->val(0);
+        $form->addDropdown('rowsHeaderSource',
+            ['Auto', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            $this->getLang('label:rowsHeader'));
+        $form->addTextInput('rowsVisible', $this->getLang('label:rowsVisible'))
+            ->attrs(array('type' => 'number', 'min' => '0'))
+            ->val(0);
         $options = array(
             'default' => $this->getLang('option:default'),
             'left' => $this->getLang('option:float left'),
@@ -48,6 +59,9 @@ class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin {
             'center' => $this->getLang('option:center'),
         );
         $form->addDropdown('float', $options, $this->getLang('label:alignment'))->val('default');
+        $form->addCheckbox('tableSort', $this->getLang('label:tableSort'));
+        $form->addCheckbox('tableSearch', $this->getLang('label:tableSearch'));
+        $form->addCheckbox('tablePrint', $this->getLang('label:tablePrint'));
         $form->addButton('', $this->getLang('button:apply'))->attr('type', 'submit');
         $form->addTagClose('div');
         $form->addFieldsetClose();

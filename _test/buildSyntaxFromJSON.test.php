@@ -7,7 +7,8 @@
  * @group plugins
  *
  */
-class buildSyntaxFromJSON_plugin_tablelayout_test extends DokuWikiTest {
+class buildSyntaxFromJSON_plugin_tablelayout_test extends DokuWikiTest
+{
 
     protected $pluginsEnabled = array('tablelayout');
 
@@ -17,7 +18,8 @@ class buildSyntaxFromJSON_plugin_tablelayout_test extends DokuWikiTest {
      *
      * @return array Array of testcases
      */
-    public static function buildSyntaxFromJSON_testdata() {
+    public static function dataBuildSyntaxFromJSON()
+    {
         return array(
             array(
                 '{"colwidth":["2px","3px"]}',
@@ -30,32 +32,38 @@ class buildSyntaxFromJSON_plugin_tablelayout_test extends DokuWikiTest {
                 'One undefined column-width in between'
             ),
             array(
-                '{"rowsFixed":2,"rowsVisible":10}',
-                '{{tablelayout?rowsFixed=2&rowsVisible=10}}',
+                '{"rowsHeader":2,"rowsVisible":10}',
+                '{{tablelayout?rowsHeader=2&rowsVisible=10}}',
                 '2 fixed and 10 visible rows'
             ),
             array(
-                '{"colwidth":["2px",null,"3px"],"rowsFixed":2,"rowsVisible":10}',
-                '{{tablelayout?rowsFixed=2&rowsVisible=10&colwidth="2px,,3px"}}',
+                '{"colwidth":["2px",null,"3px"],"rowsHeader":2,"rowsVisible":10}',
+                '{{tablelayout?rowsHeader=2&rowsVisible=10&colwidth="2px,,3px"}}',
                 '2 fixed and 10 visible rows and col-widths'
             ),
             array(
-                '{"rowsFixed":2,"colwidth":["2px",null,"3px"],"rowsVisible":10}',
-                '{{tablelayout?rowsFixed=2&rowsVisible=10&colwidth="2px,,3px"}}',
+                '{"rowsHeader":2,"colwidth":["2px",null,"3px"],"rowsVisible":10}',
+                '{{tablelayout?rowsHeader=2&rowsVisible=10&colwidth="2px,,3px"}}',
                 '2 fixed and 10 visible rows and col-widths, differently sorted'
+            ),
+            array(
+                '{"rowsHeader":2,"colwidth":["2px",null,"3px"],"rowsVisible":10,"tableSort":1}',
+                '{{tablelayout?rowsHeader=2&rowsVisible=10&colwidth="2px,,3px"&tableSort=1}}',
+                '2 fixed and 10 visible rows and col-widths, set tableSort to true'
             )
         );
     }
 
     /**
-     * @dataProvider buildSyntaxFromJSON_testdata
+     * @dataProvider dataBuildSyntaxFromJSON
      *
      * @param string $json
      * @param array $expected_syntax
      * @param string $msg
      */
-    public function test_buildSyntaxFromJSON($json, $expected_syntax, $msg) {
-        /** @var helper_plugin_tablelayout $helper*/
+    public function testBuildSyntaxFromJSON($json, $expected_syntax, $msg)
+    {
+        /** @var helper_plugin_tablelayout $helper */
         $helper = plugin_load('helper', 'tablelayout');
 
         $actual_syntax = $helper->buildSyntaxFromJSON($json);
