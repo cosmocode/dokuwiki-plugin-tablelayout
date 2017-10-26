@@ -167,6 +167,15 @@ jQuery(window).on('load', function () {
     jQuery('.content .table').each(function (index, element) {
         var $table = jQuery(element).find('table');
         var layoutdata = jQuery(element).prev().data('tablelayout');
+        if (typeof layoutdata === 'undefined') {
+            var numHeaderRows = $table.find('thead tr').length;
+            layoutdata = {
+                rowsHeader: numHeaderRows,
+                tableSearch: true,
+                tableSort: true,
+                tablePrint: true
+            };
+        }
 
         var $secedit_form = jQuery(element).next('.secedit').find('form div.no');
         var $input = jQuery('<input name="tablelayout" type="hidden">').val(JSON.stringify(layoutdata));
