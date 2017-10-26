@@ -1,4 +1,4 @@
-div.dokuwiki {
+.dokuwiki {
 
     #layoutcontainer {
         fieldset {
@@ -60,6 +60,22 @@ div.dokuwiki {
     }
 
     div.table {
+        &.hasSearch {
+            margin-top: 3rem;
+        }
+        > div.globalSearch {
+            position: absolute;
+
+            label {
+                font-weight: bold;
+                vertical-align: middle;
+            }
+
+            input {
+                margin-left: 0.5rem;
+            }
+        }
+
         > div {
             overflow-x: hidden;
         }
@@ -69,6 +85,49 @@ div.dokuwiki {
             -webkit-hyphens: auto;
             -ms-hyphens: auto;
             hyphens: auto;
+
+        }
+
+        .searchSortRow {
+            td > div, th > div {
+                display: flex;
+                justify-content: flex-end;
+
+                input {
+                    width: 5px;
+                    flex-grow: 1;
+                    flex-shrink: 1;
+                }
+
+                button.sortable {
+                    flex-grow: 0;
+                    padding: 0.7em;
+                    margin-left: 0.3em;
+                    margin-right: 0.3em;
+                    background: white no-repeat;
+                    background-position-x: right;
+                    background-size: 100%;
+                    border: 1px solid #ccc;
+                    border-radius: 3px;
+
+                    &:hover {
+                        background-color: white;
+                    }
+
+                    &.unsorted {
+                        background-image: url('images/sort.svg');
+                    }
+
+                    &.sorted_asc {
+                        background-image: url('images/sort-ascending.svg');
+                    }
+
+                    &.sorted_desc {
+                        background-image: url('images/sort-descending.svg');
+                    }
+                }
+
+            }
         }
 
         table.flexiblewidth {
@@ -80,5 +139,37 @@ div.dokuwiki {
             width: 10px;
             table-layout: fixed;
         }
+    }
+
+    div.secedit.editbutton_table a.button.print {
+        margin-left: 0.6em;
+        padding: 0 0.3em;
+        background-image: none;
+        display: inline-block;
+        float: none;
+        color: @ini_link;
+        border: 1px solid @ini_border;
+        border-top: none;
+
+        height: 1.8em;
+        line-height: 1.8em;
+        font-size: 75%;
+
+
+        border-top-right-radius: 0;
+        -moz-border-radius-topright: 0;
+        -webkit-border-top-right-radius: 0;
+
+        border-top-left-radius: 0;
+        -moz-border-radius-topleft: 0;
+        -webkit-border-top-left-radius: 0;
+
+        border-bottom-right-radius: 0.5em;
+        -moz-border-radius-bottomright: 0.5em;
+        -webkit-border-bottom-right-radius: 0.5em;
+
+        border-bottom-left-radius: 0.5em;
+        -moz-border-radius-bottomleft: 0.5em;
+        -webkit-border-bottom-left-radius: 0.5em;
     }
 }

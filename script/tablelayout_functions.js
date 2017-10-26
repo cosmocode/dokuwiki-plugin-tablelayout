@@ -6,7 +6,7 @@ window.tablelayout = window.tablelayout || {};
     exports.getNumberOfTableCols = function ($table) {
         var $rows = $table.find('tr');
         var max = 0;
-        $rows.each(function(index, row) {
+        $rows.each(function (index, row) {
             if (max < row.cells.length) {
                 max = row.cells.length;
                 atomicrowIndex = index;
@@ -34,8 +34,8 @@ window.tablelayout = window.tablelayout || {};
         }
         exports.styleColumnWidths($table, layoutdata.colwidth);
         exports.fixColumnWidths($table);
-        if (layoutdata.rowsFixed > 0 && layoutdata.rowsVisible > 0) {
-            exports.freezeTableRows($table, layoutdata.rowsFixed, layoutdata.rowsVisible);
+        if (layoutdata.rowsHeader > 0 && layoutdata.rowsVisible > 0) {
+            exports.freezeTableRows($table, layoutdata.rowsHeader, layoutdata.rowsVisible);
         }
         if (layoutdata.float === 'right' || layoutdata.float === 'left' || layoutdata.float === 'center') {
             exports.floatTable($table, layoutdata.float);
@@ -44,7 +44,7 @@ window.tablelayout = window.tablelayout || {};
 
     exports.fixColumnWidths = function ($table) {
         var $cols = $table.find('colgroup col');
-        var $atomicrow = $table.find('.row'+atomicrowIndex);
+        var $atomicrow = $table.find('.row' + atomicrowIndex);
         $cols.each(function (index, col) {
             var width = $atomicrow['0'].cells.item(index).offsetWidth;
             if (!col.style.width) {
@@ -80,6 +80,8 @@ window.tablelayout = window.tablelayout || {};
         }
         var tableWidth = $table.width();
         var $frozenTable = $table.clone();
+        $table.addClass('tablelayout_body');
+        $frozenTable.addClass('tablelayout_head');
         var $frozenRows = $frozenTable.find('tr');
         for (var i = $table.find('tr').length - 1; i >= rowsToFreeze; i -= 1) {
             jQuery($frozenRows[i]).remove();
@@ -96,12 +98,12 @@ window.tablelayout = window.tablelayout || {};
         }
         $table.parent().prepend($frozenTable);
         var SCROLLBAR_WIDTH = 17;
-        $frozenTable.wrap(jQuery('<div></div>').width(tableWidth+SCROLLBAR_WIDTH));
+        $frozenTable.wrap(jQuery('<div></div>').width(tableWidth + SCROLLBAR_WIDTH));
         var height = 0;
         for (i = rowsToFreeze; i < rowsToFreeze + rowsVisible; i += 1) {
             height += jQuery($tableRows[i]).height();
         }
-        var tableWrapper = jQuery('<div></div>').css({'overflow-y': 'scroll'}).height(height).width(tableWidth+SCROLLBAR_WIDTH);
+        var tableWrapper = jQuery('<div></div>').css({'overflow-y': 'scroll'}).height(height).width(tableWidth + SCROLLBAR_WIDTH);
         $table.wrap(tableWrapper);
     };
 
@@ -110,10 +112,69 @@ window.tablelayout = window.tablelayout || {};
         if (json) {
             layout = JSON.parse(json);
         }
-        if (typeof layout.colwidth == 'undefined') {
+
+        if (typeof layout.colwidth === 'undefined') {
             layout.colwidth = [];
         }
         return layout;
+    };
+
+    exports.sortTable = function ($tableRows, sortColumnIndex, order) {
+        var sortModifier = order === 'asc' ? 1 : -1;
+        var compare = function compare(rowA, rowB) {
+            var tda = jQuery(rowA).find('td,th').eq(sortColumnIndex).text().toLowerCase();
+            var tdb = jQuery(rowB).find('td,th').eq(sortColumnIndex).text().toLowerCase();
+            if (tda < tdb) {
+                return -1 * sortModifier;
+            }
+
+            if (tda > tdb) {
+                return sortModifier;
+            }
+
+            return 0;
+        };
+        return $tableRows.sort(compare);
+    };
+
+    /**
+     * split all rowspans and colspans in a continuous set of table rows and multiply the content for all rows
+     *
+     * Please note that this functions modifies the argument as well.
+     *
+     * @param {jQuery[]} $tableRows jQuery set of continuoues table rows
+     *
+     * @return {jQuery[]} the adjust array of rows
+     */
+    exports.splitMerges = function splitMerges($tableRows) {
+        var $splitRows = $tableRows;
+        $splitRows.find('td[colspan],th[colspan]').each(function (index, cell) {
+            var $cell = jQuery(cell);
+            var colspan = $cell.attr('colspan') - 1;
+            $cell.removeAttr('colspan');
+            for (var i = 0; i < colspan; i += 1) {
+                $cell.after($cell.clone(true, true));
+            }
+        });
+        $splitRows.find('td[rowspan],th[rowspan]').each(function (index, cell) {
+            var $cell = jQuery(cell);
+            var rowspan = $cell.attr('rowspan') - 1;
+            $cell.removeAttr('rowspan');
+            var colIndex = 0;
+            $cell.prevAll('td,th').each(function () {
+                colIndex += this.colSpan;
+            });
+            for (var i = 0; i < rowspan; i += 1) {
+                var $rowMissingCell = $cell.closest('tr').nextAll().eq(i);
+                var $rowCells = $rowMissingCell.find('td,th');
+                if ($rowCells.length === colIndex) {
+                    $rowCells.last().after($cell.clone(true, true));
+                } else {
+                    $rowCells.eq(colIndex).before($cell.clone(true, true));
+                }
+            }
+        });
+        return $splitRows;
     };
 
     return exports;

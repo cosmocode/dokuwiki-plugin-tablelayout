@@ -2,14 +2,16 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <title>tablelayout qunit tests</title>
-    <link rel="stylesheet" href="//code.jquery.com/qunit/qunit-2.0.1.css">
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.4.0.css">
     <script src="../node_modules/jquery/dist/jquery.js"></script>
-    <script>window.jQuery || document.write('<script src="//code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"><\/script>')</script>
+    <script>window.jQuery || document.write('<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"><\/script>')</script>
 </head>
 <body>
 <div id="qunit"></div>
 <div id="qunit-fixture">
+    <div id="smallTable">
     <div class="plugin_tablelayout_placeholder" data-tablelayout="0"></div>
     <div class="table sectionedit8"><table class="inline">
         <thead>
@@ -17,26 +19,47 @@
             <th class="col0 leftalign"> Column 1  </th><th class="col1 leftalign"> Column 2  </th>
         </tr>
         <tr class="row1">
-            <th class="col0 leftalign"> 2         </th><th class="col1 leftalign">           </th>
+            <th class="col0 leftalign"> 2         </th><th class="col1 leftalign"> T          </th>
         </tr>
         </thead>
         <tr class="row2">
-            <td class="col0 leftalign"> 3         </td><td class="col1 leftalign">           </td>
+            <td class="col0 leftalign"> 3         </td><td class="col1 leftalign"> v          </td>
         </tr>
         <tr class="row3">
-            <th class="col0 leftalign"> 4         </th><th class="col1 leftalign">           </th>
+            <th class="col0 leftalign"> 4         </th><th class="col1 leftalign"> A          </th>
         </tr>
         <tr class="row4">
-            <td class="col0 leftalign"> 5         </td><td class="col1 leftalign">           </td>
+            <td class="col0 leftalign"> 5         </td><td class="col1 leftalign"> b          </td>
         </tr>
     </table></div>
     <div class="secedit editbutton_table editbutton_2" style="display: block; margin-top: -12px;"></div>
+    </div>
+
+    <div id="mergeFixture">
+        <div class="table sectionedit2"><table class="inline">
+            <tbody><tr class="row0">
+                <td class="col0 leftalign"> A1  </td><td class="col1 leftalign"> B1   </td><td class="col2 leftalign"> C1   </td><td class="col3 leftalign"> D1  </td>
+            </tr>
+            <tr class="row1">
+                <td class="col0 leftalign"> A2  </td><td class="col1 leftalign" colspan="2" rowspan="2"> M          </td><td class="col3 leftalign"> D2  </td>
+            </tr>
+            <tr class="row2">
+                <td class="col0 leftalign"> A3  </td><td class="col1 leftalign"> D3  </td>
+            </tr>
+            <tr class="row3">
+                <td class="col0 leftalign"> A4  </td><td class="col1 leftalign"> B4   </td><td class="col2 leftalign"> C4   </td><td class="col3 leftalign"> D4  </td>
+            </tr>
+            </tbody>
+        </table></div>
+    </div>
 </div>
 <script src="../node_modules/qunitjs/qunit/qunit.js"></script>
-<script>window.QUnit || document.write('<script src="//code.jquery.com/qunit/qunit-2.0.1.js"><\/script>')</script>
+<script>window.QUnit || document.write('<script src="https://code.jquery.com/qunit/qunit-2.4.0.js"><\/script>')</script>
 <script src="../script/tablelayout_functions.js"></script>
 <script src="freezeRows.tests.js"></script>
 <script src="floatTable.tests.js"></script>
 <script src="colWidths.tests.js"></script>
+<script src="sort.tests.js"></script>
+<script src="splitMerges.tests.js"></script>
 </body>
 </html>
