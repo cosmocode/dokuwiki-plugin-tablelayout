@@ -48,7 +48,7 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
     {
         global $TEXT, $INPUT;
 
-        switch(act_clean($event->data)) {
+        switch (act_clean($event->data)) {
             case 'preview':
                 /** @var helper_plugin_tablelayout $helper */
                 $helper = $this->loadHelper('tablelayout');
@@ -58,7 +58,7 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
                 }
                 break;
             case 'save':
-                if($INPUT->post->has('edittable__new')) {
+                if ($INPUT->post->has('edittable__new')) {
                     /** @var helper_plugin_tablelayout $helper */
                     $helper = $this->loadHelper('tablelayout');
                     $newSyntax = $helper->buildSyntaxFromJSON($INPUT->str('tablelayout'));
@@ -67,6 +67,17 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
                     }
                 };
                 break;
+            case 'edit':
+                if ($INPUT->post->has('edittable__new')) {
+                    // FIXME this duplicates the default layout-data in the javascript
+                    $INPUT->post->set('tablelayout', json_encode(array(
+                            'rowsHeaderSource' => 'Auto',
+                            'tableSearch' => true,
+                            'tableSort' => true,
+                            'tablePrint' => true,
+                        ))
+                    );
+                };
             default:
         }
     }
