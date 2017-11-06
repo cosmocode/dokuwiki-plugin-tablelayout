@@ -27,9 +27,7 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
      */
     public function register(Doku_Event_Handler $controller)
     {
-        // todo: switch to COMMON_WIKIPAGE_SAVE with next major DokuWiki release that includes pull request #1696
         $controller->register_hook('COMMON_WIKIPAGE_SAVE', 'BEFORE', $this, 'ensurePagesave');
-        $controller->register_hook('IO_WIKIPAGE_WRITE', 'BEFORE', $this, 'handlePagesaveBefore');
         $controller->register_hook('PLUGIN_EDITTABLE_PREPROCESS_EDITOR', 'AFTER', $this, 'handlePreview');
         $controller->register_hook('HTML_EDITFORM_OUTPUT', 'BEFORE', $this, 'addLayoutField');
     }
@@ -74,13 +72,18 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
             return false;
         }
         global $RANGE, $INPUT;
+        if (!$INPUT->has('tablelayout')) {
+            return false;
+        }
         list($start) = explode('-', $RANGE);
         $start = (int)$start;
 
         if (!$this->isTableSave($event->data['newContent'], $start)) {
             return false;
         }
-        $pretext = explode("\n", substr($event->data['newContent'], 0, $start - 2));
+        $pretext = explode("\n", rtrim(substr($event->data['newContent'], 0, $start - 1)));
+        $tableAndSuffix = substr($event->data['newContent'],$start - 1);
+
         $oldSyntax = end($pretext);
         $newLayoutJSON = $INPUT->str('tablelayout');
 
@@ -88,49 +91,16 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
         $helper = $this->loadHelper('tablelayout');
         $newSyntax = $helper->buildSyntaxFromJSON($newLayoutJSON);
 
-        if ($oldSyntax != $newSyntax) {
+        if ($oldSyntax !== $newSyntax) {
+            if (strpos($oldSyntax, '{{tablelayout') === 0) {
+                array_pop($pretext);
+            }
+            $pretext[] = $newSyntax;
+            $event->data['newContent'] = implode("\n", $pretext) . "\n" . $tableAndSuffix;
             $event->data['contentChanged'] = true;
             return true;
         }
         return false;
-    }
-
-    /**
-     * Adjust tablelayout saved on page
-     *
-     * @param Doku_Event $event event object by reference
-     * @param mixed $param [the parameters passed as fifth argument to register_hook() when this
-     *                           handler was registered]
-     * @return bool
-     */
-    public function handlePagesaveBefore(Doku_Event $event, $param)
-    {
-        if ($event->data[3] !== false) {
-            return false;
-        }
-        global $RANGE, $INPUT;
-        list($start) = explode('-', $RANGE);
-        $start = (int) $start;
-
-        if (!$this->isTableSave($event->data[0][1], $start)) {
-            return false;
-        }
-        $pretext = explode("\n", substr($event->data[0][1], 0, $start - 2));
-        $oldSyntax = end($pretext);
-        $newLayoutJSON = $INPUT->str('tablelayout');
-
-        /** @var helper_plugin_tablelayout $helper */
-        $helper = $this->loadHelper('tablelayout');
-        $newSyntax = $helper->buildSyntaxFromJSON($newLayoutJSON);
-
-        // todo check that old syntax and new syntax differ
-
-        if (substr($oldSyntax, 0, strlen('{{tablelayout')) === '{{tablelayout') {
-            array_pop($pretext);
-        }
-        $pretext[] = $newSyntax;
-        $event->data[0][1] = join("\n", $pretext) . "\n" . substr($event->data[0][1], $start - 1);
-        return true;
     }
 
     private function isTableSave($text, $start)
