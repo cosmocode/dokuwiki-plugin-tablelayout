@@ -76,13 +76,13 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
             return false;
         }
         list($start) = explode('-', $RANGE);
-        $start = (int)$start;
+        $start = (int)$start-1; // $RANGE is 1-based
 
         if (!$this->isTableSave($event->data['newContent'], $start)) {
             return false;
         }
-        $pretext = explode("\n", rtrim(substr($event->data['newContent'], 0, $start - 1)));
-        $tableAndSuffix = substr($event->data['newContent'],$start - 1);
+        $pretext = explode("\n", rtrim(substr($event->data['newContent'], 0, $start)));
+        $tableAndSuffix = substr($event->data['newContent'],$start);
 
         $oldSyntax = end($pretext);
         $newLayoutJSON = $INPUT->str('tablelayout');
@@ -103,10 +103,18 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
         return false;
     }
 
+    /**
+     * Determine if this is saving a table
+     *
+     * @todo: this might be somewhat redundant, since only table-saves should have the tablelayout-key
+     *
+     * @param string $text
+     * @param int $start
+     * @return bool
+     */
     private function isTableSave($text, $start)
     {
-        // FIXME: not sure why we have to use $start-1 here. There might be a bug in how $RANGE is calculated
-        $firstChar = $text[$start - 1];
+        $firstChar = $text[$start];
         return $firstChar === '^' || $firstChar === '|';
     }
 }
