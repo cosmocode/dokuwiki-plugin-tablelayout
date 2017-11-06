@@ -28,7 +28,7 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
     public function register(Doku_Event_Handler $controller)
     {
         $controller->register_hook('COMMON_WIKIPAGE_SAVE', 'BEFORE', $this, 'ensurePagesave');
-        $controller->register_hook('PLUGIN_EDITTABLE_PREPROCESS_EDITOR', 'AFTER', $this, 'handlePreview');
+        $controller->register_hook('PLUGIN_EDITTABLE_PREPROCESS_EDITOR', 'AFTER', $this, 'handleTablePost');
         $controller->register_hook('HTML_EDITFORM_OUTPUT', 'BEFORE', $this, 'addLayoutField');
     }
 
@@ -44,18 +44,30 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
         $form->addHidden('tablelayout', $INPUT->str('tablelayout'));
     }
 
-    public function handlePreview(Doku_Event $event, $param)
+    public function handleTablePost(Doku_Event $event, $param)
     {
-        global $ACT, $TEXT, $INPUT;
-        if (act_clean($ACT) !== 'preview') {
-            return;
-        }
+        global $TEXT, $INPUT;
 
-        /** @var helper_plugin_tablelayout $helper */
-        $helper = $this->loadHelper('tablelayout');
-        $newSyntax = $helper->buildSyntaxFromJSON($INPUT->str('tablelayout'));
-        if (strlen($newSyntax) > 0) {
-            $TEXT = $newSyntax . "\n" . $TEXT;
+        switch(act_clean($event->data)) {
+            case 'preview':
+                /** @var helper_plugin_tablelayout $helper */
+                $helper = $this->loadHelper('tablelayout');
+                $newSyntax = $helper->buildSyntaxFromJSON($INPUT->str('tablelayout'));
+                if (strlen($newSyntax) > 0) {
+                    $TEXT = $newSyntax . "\n" . $TEXT;
+                }
+                break;
+            case 'save':
+                if($INPUT->post->has('edittable__new')) {
+                    /** @var helper_plugin_tablelayout $helper */
+                    $helper = $this->loadHelper('tablelayout');
+                    $newSyntax = $helper->buildSyntaxFromJSON($INPUT->str('tablelayout'));
+                    if (strlen($newSyntax) > 0) {
+                        $TEXT = $newSyntax . "\n" . $TEXT;
+                    }
+                };
+                break;
+            default:
         }
     }
 
