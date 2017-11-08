@@ -32,23 +32,23 @@ class buildSyntaxFromJSON_plugin_tablelayout_test extends DokuWikiTest
                 'One undefined column-width in between'
             ),
             array(
-                '{"rowsHeader":2,"rowsVisible":10}',
-                '{{tablelayout?rowsHeader=2&rowsVisible=10}}',
+                '{"rowsHeaderSource":2,"rowsVisible":10}',
+                '{{tablelayout?rowsHeaderSource=2&rowsVisible=10}}',
                 '2 fixed and 10 visible rows'
             ),
             array(
-                '{"colwidth":["2px",null,"3px"],"rowsHeader":2,"rowsVisible":10}',
-                '{{tablelayout?rowsHeader=2&rowsVisible=10&colwidth="2px,,3px"}}',
+                '{"colwidth":["2px",null,"3px"],"rowsHeaderSource":2,"rowsVisible":10}',
+                '{{tablelayout?rowsHeaderSource=2&rowsVisible=10&colwidth="2px,,3px"}}',
                 '2 fixed and 10 visible rows and col-widths'
             ),
             array(
-                '{"rowsHeader":2,"colwidth":["2px",null,"3px"],"rowsVisible":10}',
-                '{{tablelayout?rowsHeader=2&rowsVisible=10&colwidth="2px,,3px"}}',
+                '{"rowsHeaderSource":2,"colwidth":["2px",null,"3px"],"rowsVisible":10}',
+                '{{tablelayout?rowsHeaderSource=2&rowsVisible=10&colwidth="2px,,3px"}}',
                 '2 fixed and 10 visible rows and col-widths, differently sorted'
             ),
             array(
-                '{"rowsHeader":2,"colwidth":["2px",null,"3px"],"rowsVisible":10,"tableSort":1}',
-                '{{tablelayout?rowsHeader=2&rowsVisible=10&colwidth="2px,,3px"&tableSort=1}}',
+                '{"rowsHeaderSource":2,"colwidth":["2px",null,"3px"],"rowsVisible":10,"tableSort":1}',
+                '{{tablelayout?rowsHeaderSource=2&rowsVisible=10&colwidth="2px,,3px"&tableSort=1}}',
                 '2 fixed and 10 visible rows and col-widths, set tableSort to true'
             )
         );
