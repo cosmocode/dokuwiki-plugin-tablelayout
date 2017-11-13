@@ -104,16 +104,6 @@ jQuery(window).on('load', function () {
         $searchSortRow.find('td > div,th > div').prepend(jQuery('<input>'));
         var $globalSearch = jQuery('<div class="globalSearch"><label><span>' + window.LANG.plugins.tablelayout.search + '</span><input name="globalSearch" type="text"></label></div>');
         $container.prepend($globalSearch);
-        if ($table.width() > $container.width()) {
-            $globalSearch.position({my: 'right bottom-3px', at: 'right top', of: $container, collision: 'none'});
-        } else {
-            $globalSearch.position({
-                my: 'right bottom-3px',
-                at: 'right top',
-                of: $tableIncludingHeaders,
-                collision: 'none'
-            });
-        }
         var $searchInputs = $searchSortRow.find('input').add($globalSearch.find('input'));
         $searchInputs.on('input', function () {
             window.tablelayout.splitMerges($rowsToBeSearched);
