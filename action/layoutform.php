@@ -46,6 +46,9 @@ class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin
         $form = new \dokuwiki\Form\Form();
         $form->addFieldsetOpen($this->getLang('legend:tablelayout'))->addClass('borderless');
         $form->addTagOpen('div')->attr('style', 'display: none;');
+        $form->addTagOpen('p');
+        $form->addHTML($this->getLang('text:explain form'));
+        $form->addTagClose('p');
         $form->addDropdown('rowsHeaderSource',
             ['Auto', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             $this->getLang('label:rowsHeader'));
