@@ -46,6 +46,11 @@ class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin
         $form = new \dokuwiki\Form\Form();
         $form->addFieldsetOpen($this->getLang('legend:tablelayout'))->addClass('borderless');
         $form->addTagOpen('div')->attr('style', 'display: none;');
+        $form->addTagOpen('p');
+        $form->addHTML($this->getLang('text:explain form'));
+        $form->addTagClose('p');
+        $form->addTagOpen('div')->addClass('layoutform_wrapper');
+        $form->addTagOpen('div');
         $form->addDropdown('rowsHeaderSource',
             ['Auto', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             $this->getLang('label:rowsHeader'));
@@ -59,9 +64,13 @@ class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin
             'center' => $this->getLang('option:center'),
         );
         $form->addDropdown('float', $options, $this->getLang('label:alignment'))->val('default');
+        $form->addTagClose('div');
+        $form->addTagOpen('div');
         $form->addCheckbox('tableSort', $this->getLang('label:tableSort'));
         $form->addCheckbox('tableSearch', $this->getLang('label:tableSearch'));
         $form->addCheckbox('tablePrint', $this->getLang('label:tablePrint'));
+        $form->addTagClose('div');
+        $form->addTagClose('div');
         $form->addButton('', $this->getLang('button:apply'))->attr('type', 'submit');
         $form->addTagClose('div');
         $form->addFieldsetClose();

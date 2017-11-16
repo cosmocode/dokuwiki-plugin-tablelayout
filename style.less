@@ -13,6 +13,14 @@
                 cursor: pointer;
             }
 
+            .layoutform_wrapper {
+                display: flex;
+
+                > div {
+                    flex-grow: 1;
+                }
+            }
+
             label {
                 display: block;
                 text-align: left;
@@ -64,7 +72,7 @@
             margin-top: 3rem;
         }
         > div.globalSearch {
-            position: absolute;
+            margin-bottom: 5px;
 
             label {
                 font-weight: bold;

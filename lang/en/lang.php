@@ -17,6 +17,7 @@ $lang['option:default'] = 'Default';
 $lang['option:float left'] = 'Floating to the left';
 $lang['option:float right'] = 'Floating to the right';
 $lang['option:center'] = 'Centered';
+$lang['text:explain form'] = 'After changing these settings, please press the [Apply & Preview]-Button.';
 $lang['js']['loading'] = 'Loading';
 $lang['js']['print'] = 'Print';
 $lang['js']['search'] = 'Search';

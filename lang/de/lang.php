@@ -17,6 +17,7 @@ $lang['option:default'] = 'Standard';
 $lang['option:float left'] = 'Linksbündig umfließend';
 $lang['option:float right'] = 'Rechtsbündig umfließend';
 $lang['option:center'] = 'Zentriert';
+$lang['text:explain form'] = 'Nach Anpassungen im Tabellenlayout den [Anwenden & Vorschau]-Knopf drücken.';
 $lang['js']['loading'] = 'Lade...';
 $lang['js']['print'] = 'Drucken';
 $lang['js']['search'] = 'Suche';
