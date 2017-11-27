@@ -161,11 +161,12 @@ jQuery(window).on('load', function () {
         var $table = jQuery(element).find('table');
         var layoutdata = jQuery(element).prev().data('tablelayout');
         if (typeof layoutdata === 'undefined') {
+            var featureDefault = Boolean(JSINFO.plugins.tablelayout.features_active_by_default);
             layoutdata = {
                 rowsHeaderSource: 'Auto',
-                tableSearch: true,
-                tableSort: true,
-                tablePrint: true
+                tableSearch: featureDefault,
+                tableSort: featureDefault,
+                tablePrint: featureDefault
             };
         }
         var numHeaderRowsAuto = $table.find('thead tr').length;
