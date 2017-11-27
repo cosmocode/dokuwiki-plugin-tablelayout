@@ -17,7 +17,7 @@ window.tablelayout = window.tablelayout || {};
                 colWidths.push(undefinedValue);
                 return;
             }
-            colWidths[index] = parseInt(currentValue);
+            colWidths[index] = parseInt(currentValue, 10);
         });
 
         if (colWidths.length) {
@@ -30,7 +30,7 @@ window.tablelayout = window.tablelayout || {};
 
         handsontable_config.afterColumnResize = function (col, width) {
             if ($layoutfield) {
-                layout.colwidth[col] = width + 'px';
+                layout.colwidth[col] = parseInt(width, 10) + 'px';
                 $layoutfield.val(JSON.stringify(layout));
             }
         };
