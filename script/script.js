@@ -90,15 +90,12 @@ jQuery(window).on('load', function () {
      */
     function addSearchFunctionality($table, $searchSortRow, numHeaderRows) {
         var $rowsToBeSearched;
-        var $tableIncludingHeaders;
         var $container = $searchSortRow.closest('.table');
         $container.addClass('hasSearch');
         if ($table.hasClass('tablelayout_body')) {
             $rowsToBeSearched = $table.find('tr');
-            $tableIncludingHeaders = $container.find('.tablelayout_head');
         } else {
             $rowsToBeSearched = $table.find('tr').slice(parseInt(numHeaderRows) + 1);
-            $tableIncludingHeaders = $table;
         }
 
         $searchSortRow.find('td > div,th > div').prepend(jQuery('<input>'));
@@ -161,11 +158,12 @@ jQuery(window).on('load', function () {
         var $table = jQuery(element).find('table');
         var layoutdata = jQuery(element).prev().data('tablelayout');
         if (typeof layoutdata === 'undefined') {
+            var featureDefault = Boolean(window.JSINFO.plugins.tablelayout.features_active_by_default);
             layoutdata = {
                 rowsHeaderSource: 'Auto',
-                tableSearch: true,
-                tableSort: true,
-                tablePrint: true
+                tableSearch: featureDefault,
+                tableSort: featureDefault,
+                tablePrint: featureDefault
             };
         }
         var numHeaderRowsAuto = $table.find('thead tr').length;
