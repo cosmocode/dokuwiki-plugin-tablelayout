@@ -172,10 +172,10 @@ jQuery(window).on('load', function () {
         var $secedit_form = jQuery(element).next('.secedit').find('form div.no');
         var $input = jQuery('<input name="tablelayout" type="hidden">').val(JSON.stringify(layoutdata));
         $secedit_form.prepend($input);
-        if (layoutdata) {
+        if (layoutdata.colwidth || layoutdata.rowsVisible) {
             window.tablelayout.applyStylesToTable($table, layoutdata);
-            applyFunctionalityToTable($table, $secedit_form, layoutdata)
         }
+        applyFunctionalityToTable($table, $secedit_form, layoutdata)
 
     });
 });
