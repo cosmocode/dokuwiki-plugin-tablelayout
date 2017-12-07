@@ -69,12 +69,13 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
                 break;
             case 'edit':
                 if ($INPUT->post->has('edittable__new')) {
+                    $featuresDefaultState = $this->getConf('features_active_by_default') === 1;
                     // FIXME this duplicates the default layout-data in the javascript
                     $INPUT->post->set('tablelayout', json_encode(array(
                             'rowsHeaderSource' => 'Auto',
-                            'tableSearch' => true,
-                            'tableSort' => true,
-                            'tablePrint' => true,
+                            'tableSearch' => $featuresDefaultState,
+                            'tableSort' => $featuresDefaultState,
+                            'tablePrint' => $featuresDefaultState,
                         ))
                     );
                 };
