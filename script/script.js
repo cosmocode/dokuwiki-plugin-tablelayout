@@ -154,7 +154,11 @@ jQuery(window).on('load', function () {
         return;
     }
 
-    jQuery('.content .table').each(function (index, element) {
+    if (!jQuery('#dokuwiki__top').hasClass('mode_show')) {
+        return;
+    }
+
+    jQuery('.page .table').each(function (index, element) {
         var $table = jQuery(element).find('table');
         var layoutdata = jQuery(element).prev().data('tablelayout');
         if (typeof layoutdata === 'undefined') {
