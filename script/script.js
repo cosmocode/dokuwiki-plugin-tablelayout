@@ -154,7 +154,8 @@ jQuery(window).on('load', function () {
         return;
     }
 
-    if (!jQuery('#dokuwiki__top').hasClass('mode_show')) {
+    var allowedModes = ['mode_show', 'mode_preview', 'act_show', 'act_preview'];
+    if (!allowedModes.some(function (allowedModeClass) {return jQuery('.dokuwiki').hasClass(allowedModeClass)})) {
         return;
     }
 
