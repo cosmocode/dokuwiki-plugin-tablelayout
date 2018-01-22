@@ -88,22 +88,22 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
      *
      * @param Doku_Event $event
      * @param $param
-     * @return bool
+     * @return void
      */
     public function ensurePagesave(Doku_Event $event, $param)
     {
-        if ($event->data['revertFrom'] || empty($event->data['newContent']) || $event->data['contentChanged']) {
-            return false;
+        if ($event->data['revertFrom'] || empty($event->data['newContent'])) {
+            return;
         }
         global $RANGE, $INPUT;
         if (!$INPUT->has('tablelayout')) {
-            return false;
+            return;
         }
         list($start) = explode('-', $RANGE);
         $start = (int)$start-1; // $RANGE is 1-based
 
         if (!$this->isTableSave($event->data['newContent'], $start)) {
-            return false;
+            return;
         }
         $pretext = explode("\n", rtrim(substr($event->data['newContent'], 0, $start)));
         $tableAndSuffix = substr($event->data['newContent'],$start);
@@ -122,9 +122,8 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
             $pretext[] = $newSyntax;
             $event->data['newContent'] = implode("\n", $pretext) . "\n" . $tableAndSuffix;
             $event->data['contentChanged'] = true;
-            return true;
+            return;
         }
-        return false;
     }
 
     /**
