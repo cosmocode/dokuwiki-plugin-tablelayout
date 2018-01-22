@@ -92,7 +92,7 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
      */
     public function ensurePagesave(Doku_Event $event, $param)
     {
-        if ($event->data['revertFrom'] || empty($event->data['newContent']) || $event->data['contentChanged']) {
+        if ($event->data['revertFrom'] || empty($event->data['newContent'])) {
             return;
         }
         global $RANGE, $INPUT;
