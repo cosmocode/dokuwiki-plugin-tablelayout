@@ -1,7 +1,7 @@
 base   tablelayout
 author Michael Große
 email  dokuwiki@cosmocode.de
-date   2018-01-22
+date   2018-04-27
 name   tablelayout plugin
 desc   Set the width of table columns and set which lines to fix
 url    https://dokuwiki.org/plugin:tablelayout
