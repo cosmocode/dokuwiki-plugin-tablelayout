@@ -12,11 +12,19 @@ jQuery(window).on('load', function () {
     function addPrintButtonToTable($secedit_form) {
         var range = $secedit_form.find('input[name="range"]').val();
         var target = $secedit_form.closest('form').attr('action');
+        var layout = $secedit_form.find('input[name="tablelayout"]').val();
         var params = [
             'do=tablelayout_printtable',
             'range=' + encodeURIComponent(range),
             'id=' + encodeURIComponent(window.JSINFO.id)
         ];
+
+        if (typeof layout !== 'undefined' && layout.length > 0) {
+            var json = JSON.parse(layout);
+            var colwidth = json.colwidth;
+            params.push('colwidth=' + colwidth);
+        }
+
         var href = target + '?' + params.join('&');
         var $link = jQuery('<a>' + window.LANG.plugins.tablelayout.print + '</a>').attr({
             'href': href,
@@ -149,12 +157,7 @@ jQuery(window).on('load', function () {
         }
     }
 
-    if (jQuery('#tablelayout_printthis').length) {
-        window.print();
-        return;
-    }
-
-    var allowedModes = ['mode_show', 'mode_preview', 'act_show', 'act_preview'];
+    var allowedModes = ['mode_show', 'mode_preview', 'mode_tablelayout_printtable', 'act_show', 'act_preview'];
     if (!allowedModes.some(function (allowedModeClass) {return jQuery('.dokuwiki').hasClass(allowedModeClass)})) {
         return;
     }
@@ -175,12 +178,19 @@ jQuery(window).on('load', function () {
         layoutdata.rowsHeader = layoutdata.rowsHeaderSource === 'Auto' ? numHeaderRowsAuto : layoutdata.rowsHeaderSource;
 
         var $secedit_form = jQuery(element).next('.secedit').find('form div.no');
-        var $input = jQuery('<input name="tablelayout" type="hidden">').val(JSON.stringify(layoutdata));
-        $secedit_form.prepend($input);
+        if ($secedit_form.length) {
+            var $input = jQuery('<input name="tablelayout" type="hidden">').val(JSON.stringify(layoutdata));
+            $secedit_form.prepend($input);
+            applyFunctionalityToTable($table, $secedit_form, layoutdata)
+        }
+
         if (layoutdata.colwidth || layoutdata.rowsVisible) {
             window.tablelayout.applyStylesToTable($table, layoutdata);
         }
-        applyFunctionalityToTable($table, $secedit_form, layoutdata)
 
     });
+
+    if (jQuery('#tablelayout_printthis').length) {
+        window.print();
+    }
 });
