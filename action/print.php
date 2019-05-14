@@ -47,6 +47,19 @@ class action_plugin_tablelayout_print extends DokuWiki_Action_Plugin
         global $INPUT, $ID;
         list(, $table, ) = rawWikiSlices($INPUT->str('range'), $ID);
         echo '<span id="tablelayout_printthis"></span>';
+
+        // pass layout to javascript, so that it can apply column width styles
+        if ($INPUT->str('colwidth')) {
+            $json = hsc(
+                json_encode(
+                    [
+                        'colwidth' => explode(',', $INPUT->str('colwidth')),
+                    ]
+                )
+            );
+            echo "<div class='plugin_tablelayout_placeholder' data-tablelayout=\"$json\"></div>";
+        }
+
         echo p_render('xhtml', p_get_instructions($table), $info);
     }
 }
