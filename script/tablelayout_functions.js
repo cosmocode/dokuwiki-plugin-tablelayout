@@ -97,6 +97,11 @@ window.tablelayout = window.tablelayout || {};
             $table.find('thead').remove();
         }
         $table.parent().prepend($frozenTable);
+        // move search above the table header
+        if ($table.parent().hasClass('hasSearch')) {
+            $table.parent().prepend($table.parent().find('.globalSearch'));
+        }
+
         var SCROLLBAR_WIDTH = 17;
         $frozenTable.wrap(jQuery('<div></div>').width(tableWidth + SCROLLBAR_WIDTH));
         var height = 0;
