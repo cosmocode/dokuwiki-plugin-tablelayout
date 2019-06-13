@@ -93,6 +93,7 @@ window.tablelayout = window.tablelayout || {};
         for (i = 0; i < rowsToFreeze; i += 1) {
             jQuery($tableRows[i]).remove();
         }
+        $frozenTable.find('thead').append($table.find('.searchSortRow'));
         if (!$table.find('thead').children().length) {
             $table.find('thead').remove();
         }
