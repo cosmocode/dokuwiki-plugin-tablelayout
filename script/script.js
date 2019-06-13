@@ -181,8 +181,8 @@ jQuery(window).on('load', function () {
         if ($secedit_form.length) {
             var $input = jQuery('<input name="tablelayout" type="hidden">').val(JSON.stringify(layoutdata));
             $secedit_form.prepend($input);
-            applyFunctionalityToTable($table, $secedit_form, layoutdata)
         }
+        applyFunctionalityToTable($table, $secedit_form, layoutdata);
 
         if (layoutdata.colwidth || layoutdata.rowsVisible) {
             window.tablelayout.applyStylesToTable($table, layoutdata);
