@@ -30,18 +30,30 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
         $controller->register_hook('COMMON_WIKIPAGE_SAVE', 'BEFORE', $this, 'ensurePagesave');
         $controller->register_hook('PLUGIN_EDITTABLE_PREPROCESS_EDITOR', 'AFTER', $this, 'handleTablePost');
         $controller->register_hook('HTML_EDITFORM_OUTPUT', 'BEFORE', $this, 'addLayoutField');
+        $controller->register_hook('FORM_EDIT_OUTPUT', 'BEFORE', $this, 'addLayoutField');
     }
 
-    public function addLayoutField(Doku_Event $event, $param)
+    /**
+     * Adds tablelayout options to hidden fields, and so makes them accessible
+     * to tablelayout form.
+     *
+     * @param Doku_Event $event
+     * @return void
+     */
+    public function addLayoutField(Doku_Event $event)
     {
         global $INPUT;
-        if ($event->data->_hidden['target'] !== 'table') {
-            return;
+
+        /** @var Doku_Form||\dokuwiki\Form\Form $form */
+        $form =& $event->data;
+
+        if (is_a($form, \dokuwiki\Form\Form::class) && $INPUT->str('target') === 'table') {
+            $form->setHiddenField('tablelayout',  $INPUT->str('tablelayout'));
         }
 
-        /** @var Doku_Form $form */
-        $form =& $event->data;
-        $form->addHidden('tablelayout', $INPUT->str('tablelayout'));
+        if (is_a($form, Doku_Form::class) && $event->data->_hidden['target'] !== 'table') {
+            $form->addHidden('tablelayout', $INPUT->str('tablelayout'));
+        }
     }
 
     public function handleTablePost(Doku_Event $event, $param)
