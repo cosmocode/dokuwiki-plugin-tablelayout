@@ -184,7 +184,7 @@ jQuery(window).on('load', function () {
         }
         applyFunctionalityToTable($table, $secedit_form, layoutdata);
 
-        if (layoutdata.colwidth || layoutdata.rowsVisible) {
+        if (layoutdata.colwidth || layoutdata.rowsVisible || layoutdata.float) {
             window.tablelayout.applyStylesToTable($table, layoutdata);
         }
 
