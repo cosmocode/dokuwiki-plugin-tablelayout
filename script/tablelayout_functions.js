@@ -15,6 +15,23 @@ window.tablelayout = window.tablelayout || {};
         return max;
     };
 
+    /**
+     * Find the placeholder that holds the layout of a table
+     *
+     * DokuWiki wraps a table and its edit button in a section highlight wrapper.
+     * The placeholder is then the element before that wrapper.
+     *
+     * @param {jQuery} $tableDiv the div.table around the table
+     * @return {jQuery} the placeholder, empty if the table has no layout
+     */
+    exports.getPlaceholder = function ($tableDiv) {
+        var $placeholder = $tableDiv.prev('div.plugin_tablelayout_placeholder');
+        if (!$placeholder.length) {
+            $placeholder = $tableDiv.parent('div.section_highlight_wrapper').prev('div.plugin_tablelayout_placeholder');
+        }
+        return $placeholder;
+    };
+
     exports.floatTable = function ($table, direction) {
         if ($table.width() > jQuery('div.page').width()) {
             return;

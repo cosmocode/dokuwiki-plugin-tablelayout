@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DokuWiki Plugin tablelayout (Action Component)
  *
@@ -6,25 +7,24 @@
  * @author  Michael Große <dokuwiki@cosmocode.de>
  */
 
-// must be run within Dokuwiki
-if (!defined('DOKU_INC')) {
-    die();
-}
+use dokuwiki\Extension\ActionPlugin;
+use dokuwiki\Extension\EventHandler;
+use dokuwiki\Extension\Event;
 
 /**
  * Class action_plugin_tablelayout_print
  *
  * Handles the adjusted tablelayout strings from edittable
  */
-class action_plugin_tablelayout_print extends DokuWiki_Action_Plugin
+class action_plugin_tablelayout_print extends ActionPlugin
 {
-    public function register(Doku_Event_Handler $controller)
+    public function register(EventHandler $controller)
     {
         $controller->register_hook('ACTION_ACT_PREPROCESS', 'BEFORE', $this, 'allowTablelayoutPrint');
         $controller->register_hook('TPL_ACT_UNKNOWN', 'BEFORE', $this, 'printTable');
     }
 
-    public function allowTablelayoutPrint(Doku_Event $event, $param)
+    public function allowTablelayoutPrint(Event $event, $param)
     {
         if ($event->data !== 'tablelayout_printtable') {
             return;
@@ -38,7 +38,7 @@ class action_plugin_tablelayout_print extends DokuWiki_Action_Plugin
         $event->preventDefault();
     }
 
-    public function printTable(Doku_Event $event, $param)
+    public function printTable(Event $event, $param)
     {
         if ($event->data !== 'tablelayout_printtable') {
             return;

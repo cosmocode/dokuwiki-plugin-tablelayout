@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DokuWiki Plugin tablelayout (Syntax Component)
  *
@@ -6,16 +7,12 @@
  * @author  Michael Große <dokuwiki@cosmocode.de>
  */
 
-// must be run within Dokuwiki
-if (!defined('DOKU_INC')) {
-    die();
-}
+use dokuwiki\Extension\SyntaxPlugin;
 
 /** @noinspection AutoloadingIssuesInspection */
-class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin
+class syntax_plugin_tablelayout extends SyntaxPlugin
 {
-
-    const SYNTAX_PATTERN = '{{tablelayout\?[^\n]*?}}(?=\s*?\n[|^])';
+    public const SYNTAX_PATTERN = '{{tablelayout\?[^\n]*?}}(?=\s*?\n[|^])';
 
     /**
      * @return string Syntax mode type
@@ -68,12 +65,13 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin
         $optionsString = substr($match, $prefixLength, -1 * strlen('}}'));
         $options = explode('&', $optionsString);
         $options = array_filter($options);
-        $data = array();
-        if (empty($options)) {
+
+        $data = [];
+        if ($options === []) {
             return $data;
         }
         foreach ($options as $option) {
-            list($key, $value) = explode('=', $option);
+            [$key, $value] = explode('=', $option);
             switch ($key) {
                 case 'rowsFixed': // for backwards compatibility
                     $data['rowsHeaderSource'] = $value;
@@ -95,9 +93,6 @@ class syntax_plugin_tablelayout extends DokuWiki_Syntax_Plugin
                 default:
                     msg('Unknown option: ' . hsc($key), -1);
             }
-        }
-        if (empty($data)) {
-            return $data;
         }
 
         return $data;

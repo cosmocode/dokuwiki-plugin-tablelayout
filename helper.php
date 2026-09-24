@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DokuWiki Plugin tablelayout (Helper Component)
  *
@@ -6,20 +7,16 @@
  * @author  Michael Große <dokuwiki@cosmocode.de>
  */
 
-// must be run within Dokuwiki
-if (!defined('DOKU_INC')) {
-    die();
-}
+use dokuwiki\Extension\Plugin;
 
 /** @noinspection AutoloadingIssuesInspection */
-class helper_plugin_tablelayout extends DokuWiki_Plugin
+class helper_plugin_tablelayout extends Plugin
 {
-
     public function buildSyntaxFromJSON($json)
     {
         $layout = json_decode($json);
         // todo check for decoding errors
-        $syntax = array();
+        $syntax = [];
         if (!empty($layout->rowsHeaderSource)) {
             $syntax[] = 'rowsHeaderSource=' . $layout->rowsHeaderSource;
         }
