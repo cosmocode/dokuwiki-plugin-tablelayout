@@ -164,7 +164,7 @@ jQuery(window).on('load', function () {
 
     jQuery('.page .table').each(function (index, element) {
         var $table = jQuery(element).find('table');
-        var layoutdata = jQuery(element).prev().data('tablelayout');
+        var layoutdata = window.tablelayout.getPlaceholder(jQuery(element)).data('tablelayout');
         if (typeof layoutdata === 'undefined') {
             var featureDefault = Boolean(window.JSINFO.plugins.tablelayout.features_active_by_default);
             layoutdata = {
