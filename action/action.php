@@ -1,10 +1,5 @@
 <?php
 
-use dokuwiki\Extension\ActionPlugin;
-use dokuwiki\Extension\EventHandler;
-use dokuwiki\Extension\Event;
-use dokuwiki\Form\Form;
-
 /**
  * DokuWiki Plugin tablelayout (Action Component)
  *
@@ -12,10 +7,10 @@ use dokuwiki\Form\Form;
  * @author  Michael Große <dokuwiki@cosmocode.de>
  */
 
-// must be run within Dokuwiki
-if (!defined('DOKU_INC')) {
-    die();
-}
+use dokuwiki\Extension\ActionPlugin;
+use dokuwiki\Extension\EventHandler;
+use dokuwiki\Extension\Event;
+use dokuwiki\Form\Form;
 
 /**
  * Class action_plugin_tablelayout
@@ -95,6 +90,7 @@ class action_plugin_tablelayout_action extends ActionPlugin
                             'tablePrint' => $featuresDefaultState,
                         ]));
                 };
+                break;
             default:
         }
     }

@@ -1,10 +1,5 @@
 <?php
 
-use dokuwiki\Extension\ActionPlugin;
-use dokuwiki\Extension\EventHandler;
-use dokuwiki\Extension\Event;
-use dokuwiki\Form\Form;
-
 /**
  * DokuWiki Plugin MagicMatcher (Action Component for toolbar button)
  *
@@ -12,10 +7,10 @@ use dokuwiki\Form\Form;
  * @author  Michael Große, Andreas Gohrs <dokuwiki@cosmocode.de>
  */
 
-// must be run within Dokuwiki
-if (!defined('DOKU_INC')) {
-    die();
-}
+use dokuwiki\Extension\ActionPlugin;
+use dokuwiki\Extension\EventHandler;
+use dokuwiki\Extension\Event;
+use dokuwiki\Form\Form;
 
 class action_plugin_tablelayout_layoutform extends ActionPlugin
 {
@@ -81,7 +76,6 @@ class action_plugin_tablelayout_layoutform extends ActionPlugin
         $form->addButton('', $this->getLang('button:apply'))->attr('type', 'submit');
         $form->addTagClose('div');
         $form->addFieldsetClose();
-
 
         echo '<div id="tablelayoutoptions">' . $form->toHTML() . '</div>';
     }

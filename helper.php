@@ -1,7 +1,5 @@
 <?php
 
-use dokuwiki\Extension\Plugin;
-
 /**
  * DokuWiki Plugin tablelayout (Helper Component)
  *
@@ -9,10 +7,7 @@ use dokuwiki\Extension\Plugin;
  * @author  Michael Große <dokuwiki@cosmocode.de>
  */
 
-// must be run within Dokuwiki
-if (!defined('DOKU_INC')) {
-    die();
-}
+use dokuwiki\Extension\Plugin;
 
 /** @noinspection AutoloadingIssuesInspection */
 class helper_plugin_tablelayout extends Plugin

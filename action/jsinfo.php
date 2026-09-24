@@ -1,8 +1,5 @@
 <?php
 
-use dokuwiki\Extension\ActionPlugin;
-use dokuwiki\Extension\EventHandler;
-
 /**
  * DokuWiki Plugin tablelayout
  *
@@ -10,10 +7,8 @@ use dokuwiki\Extension\EventHandler;
  * @author  Michael Große, Andreas Gohrs <dokuwiki@cosmocode.de>
  */
 
-// must be run within Dokuwiki
-if (!defined('DOKU_INC')) {
-    die();
-}
+use dokuwiki\Extension\ActionPlugin;
+use dokuwiki\Extension\EventHandler;
 
 class action_plugin_tablelayout_jsinfo extends ActionPlugin
 {

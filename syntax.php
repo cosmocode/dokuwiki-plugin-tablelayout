@@ -1,7 +1,5 @@
 <?php
 
-use dokuwiki\Extension\SyntaxPlugin;
-
 /**
  * DokuWiki Plugin tablelayout (Syntax Component)
  *
@@ -9,15 +7,12 @@ use dokuwiki\Extension\SyntaxPlugin;
  * @author  Michael Große <dokuwiki@cosmocode.de>
  */
 
-// must be run within Dokuwiki
-if (!defined('DOKU_INC')) {
-    die();
-}
+use dokuwiki\Extension\SyntaxPlugin;
 
 /** @noinspection AutoloadingIssuesInspection */
 class syntax_plugin_tablelayout extends SyntaxPlugin
 {
-    const SYNTAX_PATTERN = '{{tablelayout\?[^\n]*?}}(?=\s*?\n[|^])';
+    public const SYNTAX_PATTERN = '{{tablelayout\?[^\n]*?}}(?=\s*?\n[|^])';
 
     /**
      * @return string Syntax mode type
