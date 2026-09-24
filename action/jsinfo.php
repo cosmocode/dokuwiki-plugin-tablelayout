@@ -1,4 +1,8 @@
 <?php
+
+use dokuwiki\Extension\ActionPlugin;
+use dokuwiki\Extension\EventHandler;
+
 /**
  * DokuWiki Plugin tablelayout
  *
@@ -11,20 +15,21 @@ if (!defined('DOKU_INC')) {
     die();
 }
 
-class action_plugin_tablelayout_jsinfo extends DokuWiki_Action_Plugin
+class action_plugin_tablelayout_jsinfo extends ActionPlugin
 {
     /**
      * Registers a callback function for a given event
      *
-     * @param Doku_Event_Handler $controller DokuWiki's event controller object
+     * @param EventHandler $controller DokuWiki's event controller object
      * @return void
      */
-    public function register(Doku_Event_Handler $controller)
+    public function register(EventHandler $controller)
     {
         $controller->register_hook('DOKUWIKI_STARTED', 'BEFORE', $this, 'populateJSINFO');
     }
 
-    public function populateJSINFO() {
+    public function populateJSINFO()
+    {
         global $JSINFO;
 
         if (!isset($JSINFO['plugins'])) {
@@ -35,5 +40,4 @@ class action_plugin_tablelayout_jsinfo extends DokuWiki_Action_Plugin
             'features_active_by_default' => $this->getConf('features_active_by_default'),
         ];
     }
-
 }

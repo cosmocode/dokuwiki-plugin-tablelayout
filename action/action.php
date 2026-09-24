@@ -1,4 +1,10 @@
 <?php
+
+use dokuwiki\Extension\ActionPlugin;
+use dokuwiki\Extension\EventHandler;
+use dokuwiki\Extension\Event;
+use dokuwiki\Form\Form;
+
 /**
  * DokuWiki Plugin tablelayout (Action Component)
  *
@@ -16,16 +22,15 @@ if (!defined('DOKU_INC')) {
  *
  * Handles the adjusted tablelayout strings from edittable
  */
-class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
+class action_plugin_tablelayout_action extends ActionPlugin
 {
-
     /**
      * Registers a callback function for a given event
      *
-     * @param Doku_Event_Handler $controller DokuWiki's event controller object
+     * @param EventHandler $controller DokuWiki's event controller object
      * @return void
      */
-    public function register(Doku_Event_Handler $controller)
+    public function register(EventHandler $controller)
     {
         $controller->register_hook('COMMON_WIKIPAGE_SAVE', 'BEFORE', $this, 'ensurePagesave');
         $controller->register_hook('PLUGIN_EDITTABLE_PREPROCESS_EDITOR', 'AFTER', $this, 'handleTablePost');
@@ -37,18 +42,18 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
      * Adds tablelayout options to hidden fields, and so makes them accessible
      * to tablelayout form.
      *
-     * @param Doku_Event $event
+     * @param Event $event
      * @return void
      */
-    public function addLayoutField(Doku_Event $event)
+    public function addLayoutField(Event $event)
     {
         global $INPUT;
 
         /** @var Doku_Form||\dokuwiki\Form\Form $form */
         $form =& $event->data;
 
-        if (is_a($form, \dokuwiki\Form\Form::class) && $INPUT->str('target') === 'table') {
-            $form->setHiddenField('tablelayout',  $INPUT->str('tablelayout'));
+        if (is_a($form, Form::class) && $INPUT->str('target') === 'table') {
+            $form->setHiddenField('tablelayout', $INPUT->str('tablelayout'));
         }
 
         if (is_a($form, Doku_Form::class) && $event->data->_hidden['target'] !== 'table') {
@@ -56,7 +61,7 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
         }
     }
 
-    public function handleTablePost(Doku_Event $event, $param)
+    public function handleTablePost(Event $event, $param)
     {
         global $TEXT, $INPUT;
 
@@ -65,7 +70,7 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
                 /** @var helper_plugin_tablelayout $helper */
                 $helper = $this->loadHelper('tablelayout');
                 $newSyntax = $helper->buildSyntaxFromJSON($INPUT->str('tablelayout'));
-                if (strlen($newSyntax) > 0) {
+                if ((string) $newSyntax !== '') {
                     $TEXT = $newSyntax . "\n" . $TEXT;
                 }
                 break;
@@ -74,7 +79,7 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
                     /** @var helper_plugin_tablelayout $helper */
                     $helper = $this->loadHelper('tablelayout');
                     $newSyntax = $helper->buildSyntaxFromJSON($INPUT->str('tablelayout'));
-                    if (strlen($newSyntax) > 0) {
+                    if ((string) $newSyntax !== '') {
                         $TEXT = $newSyntax . "\n" . $TEXT;
                     }
                 };
@@ -83,13 +88,12 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
                 if ($INPUT->post->has('edittable__new')) {
                     $featuresDefaultState = $this->getConf('features_active_by_default') === 1;
                     // FIXME this duplicates the default layout-data in the javascript
-                    $INPUT->post->set('tablelayout', json_encode(array(
+                    $INPUT->post->set('tablelayout', json_encode([
                             'rowsHeaderSource' => 'Auto',
                             'tableSearch' => $featuresDefaultState,
                             'tableSort' => $featuresDefaultState,
                             'tablePrint' => $featuresDefaultState,
-                        ))
-                    );
+                        ]));
                 };
             default:
         }
@@ -98,11 +102,11 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
     /**
      * Check if page has to be saved because tablelayout has changed
      *
-     * @param Doku_Event $event
+     * @param Event $event
      * @param $param
      * @return void
      */
-    public function ensurePagesave(Doku_Event $event, $param)
+    public function ensurePagesave(Event $event, $param)
     {
         if ($event->data['revertFrom'] || empty($event->data['newContent'])) {
             return;
@@ -111,14 +115,14 @@ class action_plugin_tablelayout_action extends DokuWiki_Action_Plugin
         if (!$INPUT->has('tablelayout')) {
             return;
         }
-        list($start) = explode('-', $RANGE);
-        $start = (int)$start-1; // $RANGE is 1-based
+        [$start] = explode('-', $RANGE);
+        $start = (int)$start - 1; // $RANGE is 1-based
 
         if (!$this->isTableSave($event->data['newContent'], $start)) {
             return;
         }
         $pretext = explode("\n", rtrim(substr($event->data['newContent'], 0, $start)));
-        $tableAndSuffix = substr($event->data['newContent'],$start);
+        $tableAndSuffix = substr($event->data['newContent'], $start);
 
         $oldSyntax = end($pretext);
         $newLayoutJSON = $INPUT->str('tablelayout');

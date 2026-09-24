@@ -1,4 +1,10 @@
 <?php
+
+use dokuwiki\Extension\ActionPlugin;
+use dokuwiki\Extension\EventHandler;
+use dokuwiki\Extension\Event;
+use dokuwiki\Form\Form;
+
 /**
  * DokuWiki Plugin MagicMatcher (Action Component for toolbar button)
  *
@@ -11,16 +17,15 @@ if (!defined('DOKU_INC')) {
     die();
 }
 
-class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin
+class action_plugin_tablelayout_layoutform extends ActionPlugin
 {
-
     /**
      * Registers a callback function for a given event
      *
-     * @param Doku_Event_Handler $controller DokuWiki's event controller object
+     * @param EventHandler $controller DokuWiki's event controller object
      * @return void
      */
-    public function register(Doku_Event_Handler $controller)
+    public function register(EventHandler $controller)
     {
         $controller->register_hook('AJAX_CALL_UNKNOWN', 'BEFORE', $this, 'handleAjaxCall');
     }
@@ -28,12 +33,12 @@ class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin
     /**
      * List available templates
      *
-     * @param Doku_Event $event event object by reference
+     * @param Event $event event object by reference
      * @param mixed $param [the parameters passed as fifth argument to register_hook() when this
      *                           handler was registered]
      * @return void
      */
-    public function handleAjaxCall(Doku_Event $event, $param)
+    public function handleAjaxCall(Event $event, $param)
     {
         if ($event->data !== 'plugin_tablelayout_form') {
             return;
@@ -43,7 +48,7 @@ class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin
 
         header('Content-Type: text/html; charset=utf-8');
 
-        $form = new \dokuwiki\Form\Form();
+        $form = new Form();
         $form->addFieldsetOpen($this->getLang('legend:tablelayout'))->addClass('borderless');
         $form->addTagOpen('div')->attr('style', 'display: none;');
         $form->addTagOpen('p');
@@ -51,18 +56,20 @@ class action_plugin_tablelayout_layoutform extends DokuWiki_Action_Plugin
         $form->addTagClose('p');
         $form->addTagOpen('div')->addClass('layoutform_wrapper');
         $form->addTagOpen('div');
-        $form->addDropdown('rowsHeaderSource',
+        $form->addDropdown(
+            'rowsHeaderSource',
             ['Auto', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-            $this->getLang('label:rowsHeader'));
+            $this->getLang('label:rowsHeader')
+        );
         $form->addTextInput('rowsVisible', $this->getLang('label:rowsVisible'))
-            ->attrs(array('type' => 'number', 'min' => '0'))
+            ->attrs(['type' => 'number', 'min' => '0'])
             ->val(0);
-        $options = array(
+        $options = [
             'default' => $this->getLang('option:default'),
             'left' => $this->getLang('option:float left'),
             'right' => $this->getLang('option:float right'),
             'center' => $this->getLang('option:center'),
-        );
+        ];
         $form->addDropdown('float', $options, $this->getLang('label:alignment'))->val('default');
         $form->addTagClose('div');
         $form->addTagOpen('div');
